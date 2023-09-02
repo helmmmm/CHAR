@@ -5,6 +5,7 @@ using UnityEngine;
 using Niantic.ARDK.AR;
 using Niantic.ARDK.AR.ARSessionEventArgs;
 using Niantic.ARDK.Utilities;
+using Niantic.ARDK.AR.HitTest;
 using Niantic.ARDK.Utilities.Input.Legacy;
 
 //Define our main class
@@ -17,12 +18,14 @@ public class SceneManager : MonoBehaviour
 
     private float timeSinceLastShot = 0f;
     private float fireRate = 0.05f;
+    public ARHitTester _hitTester;
 
     // Start is called before the first frame update
     void Start()
     {
         //ARSessionFactory helps create our AR Session. Here, we're telling our 'ARSessionFactory' to listen to when a new ARSession is created, then call an 'OnSessionInitialized' function when we get notified of one being created
         ARSessionFactory.SessionInitialized += OnSessionInitialized;
+        _hitTester = GetComponent<ARHitTester>();
     }
 
     // Update is called once per frame
@@ -58,6 +61,15 @@ public class SceneManager : MonoBehaviour
     //This function will be called when the player touches the screen. For us, we'll have this trigger the shooting of our ball from where we touch.
     private void TouchBegan(Touch touch)
     {
+        if (_hitTester._objectPlaced)
+        {
+            ShootBall();
+        }
+        return;
+    }
+
+    private void ShootBall()
+    {
         //Let's spawn a new ball to bounce around our space
         GameObject newBall = Instantiate(_ballPrefab);  //Spawn a new ball from our Ball Prefab
         newBall.transform.rotation = Quaternion.Euler(new Vector3(0.0f, 0.0f, 0.0f));   //Set the rotation of our new Ball
@@ -65,8 +77,8 @@ public class SceneManager : MonoBehaviour
 
         //Add velocity to our Ball, here we're telling the game to put Force behind the Ball in the direction Forward from our Camera (so, straight ahead)
         Rigidbody rigbod = newBall.GetComponent<Rigidbody>();
-        rigbod.velocity = new Vector3(0f, 1f, 0f);
-        float force = 300.0f;
+        rigbod.velocity = new Vector3(0f, 0.5f, 0f);
+        float force = 200.0f;
         rigbod.AddForce(_mainCamera.transform.forward * force);
     }
 }

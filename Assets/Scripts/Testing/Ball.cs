@@ -5,7 +5,7 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     private float timeLived = 0f;
-    private float maxTime = 5f;
+    private float maxTime = 3f;
 
     // Update is called once per frame
     void Update()

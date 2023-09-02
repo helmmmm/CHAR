@@ -7,14 +7,14 @@ using Niantic.ARDK.Utilities;
 
 using UnityEngine;
 
-namespace Niantic.ARDKExamples.Helpers
-{
-  //! Helper script that spawns a cursor on a plane if it finds one
-  /// <summary>
-  /// A sample class that can be added to a scene to demonstrate basic plane finding and hit
-  ///   testing usage. On each updated frame, a hit test will be applied from the middle of the
-  ///   screen and spawn a cursor if it finds a plane.
-  /// </summary>
+// namespace Niantic.ARDKExamples.Helpers
+// {
+//   //! Helper script that spawns a cursor on a plane if it finds one
+//   /// <summary>
+//   /// A sample class that can be added to a scene to demonstrate basic plane finding and hit
+//   ///   testing usage. On each updated frame, a hit test will be applied from the middle of the
+//   ///   screen and spawn a cursor if it finds a plane.
+//   /// </summary>
   public class ARCursorRenderer:
     MonoBehaviour
   {
@@ -28,6 +28,7 @@ namespace Niantic.ARDKExamples.Helpers
     private GameObject _spawnedCursorObject;
 
     private IARSession _session;
+    // public Transform _spawnedCursorTransform;
 
     private void Start()
     {
@@ -43,6 +44,37 @@ namespace Niantic.ARDKExamples.Helpers
         session.FrameUpdated -= _FrameUpdated;
 
       DestroySpawnedCursor();
+    }
+
+    public void SetCursorVisibility(bool isVisible)
+    {
+      if (_spawnedCursorObject != null)
+      {
+        _spawnedCursorObject.SetActive(isVisible);
+      }
+    }
+    public Vector3 CursorPosition
+    {
+      get
+      {
+        if (_spawnedCursorObject != null)
+        {
+          return _spawnedCursorObject.transform.position;
+        }
+        return Vector3.zero; // or some other default value
+      }
+    }
+
+    public Quaternion CursorRotation
+    {
+      get
+      {
+        if (_spawnedCursorObject != null)
+        {
+          return _spawnedCursorObject.transform.rotation;
+        }
+        return Quaternion.identity; // or some other default value
+      }
     }
 
     private void DestroySpawnedCursor()
@@ -104,6 +136,7 @@ namespace Niantic.ARDKExamples.Helpers
 
       // Set the cursor object to the hit test result's position
       _spawnedCursorObject.transform.position = hitTestResults[0].WorldTransform.ToPosition();
+      // _spawnedCursorTransform = _spawnedCursorObject.transform;
 
       // Orient the cursor object to look at the user, but remain flat on the "ground", aka
       // only rotate about the y-axis
@@ -118,4 +151,4 @@ namespace Niantic.ARDKExamples.Helpers
       );
     }
   }
-}
+// }

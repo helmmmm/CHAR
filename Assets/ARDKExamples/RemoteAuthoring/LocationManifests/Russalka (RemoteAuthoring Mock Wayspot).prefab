@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 816068226598387476}
   - component: {fileID: 6738076052611291176}
   - component: {fileID: 4663931708937012145}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Russalka (Wayspot Mesh)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 4471499420768861024}
   - component: {fileID: 5038427450519867361}
   - component: {fileID: 2280042448981733353}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Russalka (RemoteAuthoring Mock Wayspot)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,5 +181,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _wayspotName: Russalka
   _meshObject: {fileID: 5850143991953887348}
-  _vpsLocationManifest: {fileID: 11400000, guid: c0853a5440caf410ea8fd0707585d311,
-    type: 2}
+  _vpsLocationManifest: {fileID: 11400000, guid: c0853a5440caf410ea8fd0707585d311, type: 2}

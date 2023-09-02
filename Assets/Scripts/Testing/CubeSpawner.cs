@@ -1,58 +1,67 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 using Niantic.ARDK.AR;
-using Niantic.ARDK.AR.Depth;
-using VoxelToolkit.MagicaVoxel;
+using Niantic.ARDK.AR.ARSessionEventArgs;
+using Niantic.ARDK.AR.HitTest;
+using Niantic.ARDK.Utilities;
+using Niantic.ARDK.External;
+using Niantic.ARDK.Utilities.Input.Legacy;
+using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
 {
-    // public GameObject cubePrefab;
-    // private IARSession _ARSession;
-    // private float timeSinceLastSpawn = 0f;
-    // public float spawnInterval = 2f;
+    public Camera Camera;  // The camera used to render the scene.
+    public GameObject CubePrefab;  // The prefab for the cube you want to spawn.
+    public float spawnInterval = 2f;  // Interval in seconds to spawn cubes.
+    
+    private IARSession _session;  // The AR session.
+    
+    void Start()
+    {
+        StartCoroutine(SpawnCubeRoutine());
+    }
 
-    // // Start is called before the first frame update
-    // void Start()
-    // {
-    //     _ARSession.DepthManager.EnableFeature(DepthFeature.Surfaces);
-    // }
+    private void OnAnyARSessionDidInitialize(AnyARSessionInitializedArgs args)
+    {
+        _session = args.Session;
+        _session.Deinitialized += OnSessionDeinitialized;
+    }
 
-    // // Update is called once per frame
-    // void Update()
-    // {
-    //     timeSinceLastSpawn += Time.deltaTime;
+    private void OnSessionDeinitialized(ARSessionDeinitializedArgs args)
+    {
+        StopAllCoroutines();
+    }
 
-    //     if (timeSinceLastSpawn >= spawnInterval)
-    //     {
-    //         SpawnCube();
-    //         timeSinceLastSpawn = 0f;
-    //     }
-    // }
+    IEnumerator SpawnCubeRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(spawnInterval);
+            SpawnRandomCube();
+        }
+    }
 
-    // private void SpawnCube()
-    // {
-    //     var surfaces = _ARSession.DepthManager.Surfaces;
+    private void SpawnRandomCube()
+    {
+        if (_session == null) return;
 
-    //     if (surfaces.Count > 0)
-    //     {
-    //         var surface = surfaces[0];
+        var frame = _session.CurrentFrame;
+        if (frame == null) return;
 
-    //         Vector3 randomPoint = GetRandomPointOnSurface(surface);
+        // Generate random screen point
+        Vector2 randomPoint = new Vector2(Random.Range(0, Camera.pixelWidth), Random.Range(0, Camera.pixelHeight));
+        
+        var results = frame.HitTest
+        (
+            Camera.pixelWidth,
+            Camera.pixelHeight,
+            randomPoint,
+            ARHitTestResultType.ExistingPlane | ARHitTestResultType.EstimatedHorizontalPlane
+        );
+        
+        if (results.Count <= 0) return;
 
-    //         Instantiate(cubePrefab, randomPoint, Quaternion.identity);
-    //     }
-    // }
-
-    // private Vector3 GetRandomPointOnSurface()
-    // {
-    //     Vector3[] vertices = surface.Mesh.vertices;
-
-    //     Vector3 randomVertex = vertices[Random.Range(0, vertices.Length)];
-
-    //     Vector3 worldPosition = surface.Transform.TransformPoint(randomVertex);
-
-    //     return worldPosition;
-    // }
+        // Use the closest hit point to spawn a cube
+        var hitPosition = results[0].WorldTransform.ToPosition();
+        Instantiate(CubePrefab, hitPosition, Quaternion.identity);
+    }
 }

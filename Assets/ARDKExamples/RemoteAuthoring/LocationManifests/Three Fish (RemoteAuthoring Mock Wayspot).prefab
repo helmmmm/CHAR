@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1787276305483396643}
   - component: {fileID: 2370287513424774487}
   - component: {fileID: 1220748912279874297}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Three Fish (Wayspot Mesh)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 6807828306863210519}
   - component: {fileID: 6592461861784302688}
   - component: {fileID: 440986127467291815}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Three Fish (RemoteAuthoring Mock Wayspot)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,5 +181,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _wayspotName: Three Fish
   _meshObject: {fileID: 6077182626022331960}
-  _vpsLocationManifest: {fileID: 11400000, guid: da0c129e539eb4be08f0cfc6480f9bc1,
-    type: 2}
+  _vpsLocationManifest: {fileID: 11400000, guid: da0c129e539eb4be08f0cfc6480f9bc1, type: 2}
