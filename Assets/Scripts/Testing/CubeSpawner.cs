@@ -6,62 +6,62 @@ using Niantic.ARDK.Utilities;
 using Niantic.ARDK.External;
 using Niantic.ARDK.Utilities.Input.Legacy;
 using UnityEngine;
+using VoxelToolkit;
 
 public class CubeSpawner : MonoBehaviour
 {
-    public Camera Camera;  // The camera used to render the scene.
     public GameObject CubePrefab;  // The prefab for the cube you want to spawn.
     public float spawnInterval = 2f;  // Interval in seconds to spawn cubes.
+    private float _spawnTimer = 0f;
     
     private IARSession _session;  // The AR session.
+    private Vector3 _circleCenter;
+    private float _radius;
+    private ARHitTester _hitTester;
+    public ARHitTester HitTester => _hitTester ?? (_hitTester = GameObject.Find("SceneManager").GetComponent<ARHitTester>());
+    
     
     void Start()
     {
-        StartCoroutine(SpawnCubeRoutine());
+        _circleCenter = gameObject.transform.position;
+        _radius = gameObject.transform.localScale.x / 2;
+
+        Debug.Log("Circle center: " + _circleCenter);
     }
 
-    private void OnAnyARSessionDidInitialize(AnyARSessionInitializedArgs args)
+    private void Update() 
     {
-        _session = args.Session;
-        _session.Deinitialized += OnSessionDeinitialized;
-    }
-
-    private void OnSessionDeinitialized(ARSessionDeinitializedArgs args)
-    {
-        StopAllCoroutines();
-    }
-
-    IEnumerator SpawnCubeRoutine()
-    {
-        while (true)
+        if (HitTester._levelPlaced)
         {
-            yield return new WaitForSeconds(spawnInterval);
-            SpawnRandomCube();
+            if (_spawnTimer >= spawnInterval)
+            {
+                SpawnCube();
+                _spawnTimer = 0f;
+            }
+            else
+                _spawnTimer += Time.deltaTime;
         }
     }
 
-    private void SpawnRandomCube()
+    void SpawnCube()
     {
-        if (_session == null) return;
+        Vector3 spawnPos = GetRandomPos(_circleCenter, _radius);
+        GameObject cube = Instantiate(CubePrefab, spawnPos, Quaternion.identity);
+        cube.transform.parent = gameObject.transform;
+    }
 
-        var frame = _session.CurrentFrame;
-        if (frame == null) return;
+    private Vector3 GetRandomPos(Vector3 circleCenter, float radius)
+    {
+        float angle = Random.Range(0f, 360f);
+        float distance = Random.Range(0f, radius);
+        Vector3 spawnPos;
 
-        // Generate random screen point
-        Vector2 randomPoint = new Vector2(Random.Range(0, Camera.pixelWidth), Random.Range(0, Camera.pixelHeight));
+        spawnPos.x = circleCenter.x + distance * Mathf.Cos(angle * Mathf.Deg2Rad);
+        spawnPos.y = circleCenter.y + 0.05f;
+        spawnPos.z = circleCenter.z + distance * Mathf.Sin(angle * Mathf.Deg2Rad);
+
+        Debug.Log("Spawned cube at: " + spawnPos);
         
-        var results = frame.HitTest
-        (
-            Camera.pixelWidth,
-            Camera.pixelHeight,
-            randomPoint,
-            ARHitTestResultType.ExistingPlane | ARHitTestResultType.EstimatedHorizontalPlane
-        );
-        
-        if (results.Count <= 0) return;
-
-        // Use the closest hit point to spawn a cube
-        var hitPosition = results[0].WorldTransform.ToPosition();
-        Instantiate(CubePrefab, hitPosition, Quaternion.identity);
+        return spawnPos;
     }
 }

@@ -61,7 +61,7 @@ public class SceneManager : MonoBehaviour
     //This function will be called when the player touches the screen. For us, we'll have this trigger the shooting of our ball from where we touch.
     private void TouchBegan(Touch touch)
     {
-        if (_hitTester._objectPlaced)
+        if (_hitTester._levelPlaced)
         {
             ShootBall();
         }

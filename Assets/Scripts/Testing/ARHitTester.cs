@@ -38,7 +38,7 @@ using UnityEngine;
 
     /// Internal reference to the session, used to get the current frame to hit test against.
     private IARSession _session;
-    public bool _objectPlaced = false;
+    public bool _levelPlaced = false;
     
     private void Start()
     {
@@ -89,7 +89,7 @@ using UnityEngine;
       }
 
       var touch = PlatformAgnosticInput.GetTouch(0);
-      if (touch.phase == TouchPhase.Began && !_objectPlaced)
+      if (touch.phase == TouchPhase.Began && !_levelPlaced)
       {
         TouchBegan(touch);
       }
@@ -131,7 +131,7 @@ using UnityEngine;
 
       if (_placedObjects.Count > 0)
       {
-        _objectPlaced = true;
+        _levelPlaced = true;
         _cursorRenderer.SetCursorVisibility(false); // Hide the cursor
       }
       

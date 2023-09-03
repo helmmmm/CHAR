@@ -441,7 +441,6 @@ GameObject:
   - component: {fileID: 1758889702}
   - component: {fileID: 1758889701}
   - component: {fileID: 1758889704}
-  - component: {fileID: 1758889705}
   - component: {fileID: 1758889707}
   - component: {fileID: 1758889706}
   m_Layer: 0
@@ -459,7 +458,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1758889696}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.592493, y: -8.377453, z: 8.257702}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -585,21 +584,6 @@ MonoBehaviour:
   _manageUsingUnityLifecycle: 1
   _planePrefab: {fileID: 1092543363889104, guid: bb977dd62e3e94aa19e67bf5fde29538, type: 3}
   _detectedPlaneTypes: 1
---- !u!114 &1758889705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1758889696}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfe03debd4cab4efe8663186c7a3a668, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Camera: {fileID: 1438800957}
-  CubePrefab: {fileID: 5679468813195478920, guid: c9d7d2a6c733f48aeb4bc21b044323aa, type: 3}
-  spawnInterval: 2
 --- !u!114 &1758889706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,7 +600,7 @@ MonoBehaviour:
   HitTestType: -1
   PlacementObjectPf: {fileID: 3261507885871944871, guid: 765e35068c19a479ead40858f3e77304, type: 3}
   _cursorRenderer: {fileID: 1758889707}
-  _objectPlaced: 0
+  _levelPlaced: 0
 --- !u!114 &1758889707
 MonoBehaviour:
   m_ObjectHideFlags: 0
