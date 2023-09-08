@@ -6,21 +6,27 @@ public class SimpleVoxel : MonoBehaviour
 {
     public float ignitionThreshold; // Temperature at which it ignites
     public float burnHP; // or burnDuration?
+    public float currentTemperature; // Temperature of the voxel
+    public bool isOnFire; // Is the voxel on fire?
+    public bool isBurnt; // Is the voxel burnt?
+    private float burnDamage = 10f; // Damage per second from fire
 
     public void GainHeat(float heat)
     {
-        ignitionThreshold -= heat;
-        if (ignitionThreshold <= 0)
+        currentTemperature += heat * Time.deltaTime;
+        if (currentTemperature >= ignitionThreshold)
         {
-            Burn();
+            Ignite();
         }
     }
 
-    public void Burn()
+    public void Ignite()
     {
-        if (burnHP <= 0)
+        isOnFire = true;
+        Debug.Log("Caught on fire!");
+        if (burnHP >= 0)
         {
-            Destroy(gameObject);
+            burnHP -=  burnDamage * Time.deltaTime;
         }
     }
 }

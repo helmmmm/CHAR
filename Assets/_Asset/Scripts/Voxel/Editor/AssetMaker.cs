@@ -235,6 +235,21 @@ public class AssetMaker : EditorWindow
             RaycastHit hitInfo;
             float enter;
 
+            if (Event.current.alt) // Check if Option/Alt key is pressed
+            {
+                // Raycast to find block
+                if (Physics.Raycast(ray, out hitInfo))
+                {
+                    // Delete block
+                    if (hitInfo.collider.gameObject.transform.parent == assetHolder.transform)
+                    {
+                        DestroyImmediate(hitInfo.collider.gameObject);
+                        Event.current.Use();  // Consume the event so it doesn't trigger other behaviors
+                        return;
+                    }
+                }
+            }
+
             Vector3 hitPoint = Vector3.zero;
             // Debug.DrawRay(rayG.origin, rayG.direction * 100, Color.yellow, 2f);
 
