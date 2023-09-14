@@ -9,7 +9,8 @@ public class SimpleVoxel : MonoBehaviour
     public float currentTemperature; // Temperature of the voxel
     public bool isOnFire; // Is the voxel on fire?
     public bool isBurnt; // Is the voxel burnt?
-    private float burnDamage = 10f; // Damage per second from fire
+    private Fire fire;
+    private float burnDamage; // Damage per second from fire
 
     public void GainHeat(float heat)
     {
