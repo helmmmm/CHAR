@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Leaf : SimpleVoxel
+public class Wood : BaseBlock
 {
-    public float ignitionThreshold = 30f;
-    public float burnHP = 120f;
 
     private void Start()
     {
