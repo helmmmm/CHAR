@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SimpleVoxel : MonoBehaviour
+public class BaseBlock : MonoBehaviour
 {
     public float ignitionThreshold; // Temperature at which it ignites
     public float burnHP; // or burnDuration?
