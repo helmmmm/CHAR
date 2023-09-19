@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatePlaneTracked : State
+public class GSM_State_PlaneTracked : State
 {
-    public StatePlaneTracked(StateMachine stateMachine) : base(stateMachine) { }
+    public GSM_State_PlaneTracked(StateMachine stateMachine) : base(stateMachine) { }
 
     public override void Enter()
     {

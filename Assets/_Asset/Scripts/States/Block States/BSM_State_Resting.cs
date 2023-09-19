@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatePaused : State
+public class BSM_State_Resting : State
 {
-    public StatePaused(StateMachine stateMachine) : base(stateMachine) { }
+    public BSM_State_Resting(StateMachine stateMachine) : base(stateMachine) { }
 
     public override void Enter()
     {
-        Debug.Log("Paused");
+        Debug.Log("Enter Resting");
     }
 
     public override void TryStateTransition(IState state)
@@ -18,6 +18,7 @@ public class StatePaused : State
 
     public override void Exit()
     {
-        Debug.Log("Resumed");
+        Debug.Log("Exit Resting");
     }
+
 }

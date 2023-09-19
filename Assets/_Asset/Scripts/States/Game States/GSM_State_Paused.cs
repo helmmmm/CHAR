@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateFirefighting : State
+public class GSM_State_Paused : State
 {
-    public StateFirefighting(StateMachine stateMachine) : base(stateMachine) { }
+    public GSM_State_Paused(StateMachine stateMachine) : base(stateMachine) { }
 
     public override void Enter()
     {
-        Debug.Log("Enter Firefighting State");
+        Debug.Log("Paused");
     }
 
     public override void TryStateTransition(IState state)
@@ -18,6 +18,6 @@ public class StateFirefighting : State
 
     public override void Exit()
     {
-        Debug.Log("Exit Firefighting State");
+        Debug.Log("Resumed");
     }
 }

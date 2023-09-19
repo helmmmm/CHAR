@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections;
-public class StateGameScene : State
+public class SSM_State_HomeScene : State
 {
-    public StateGameScene(StateMachine stateMachine) : base(stateMachine) { }
+    public SSM_State_HomeScene(StateMachine stateMachine) : base(stateMachine) { }
 
     public override void Enter()
     {
-        Debug.Log("Enter Game Scene");
+        Debug.Log("Enter Home Scene");
     }
 
     public override void TryStateTransition(IState state)
@@ -16,7 +16,6 @@ public class StateGameScene : State
 
     public override void Exit()
     {
-        Debug.Log("Exit Game Scene");
+        Debug.Log("Exit Home Scene");
     }
-    
 }

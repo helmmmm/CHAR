@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateBurning : State
+public class GSM_State_GameFinished : State
 {
-    public StateBurning(StateMachine stateMachine) : base(stateMachine) { }
+    public GSM_State_GameFinished(StateMachine stateMachine) : base(stateMachine) { }
 
     public override void Enter()
     {
-        Debug.Log("Enter Burning");
+        Debug.Log("Enter Game Finished State");
     }
 
     public override void TryStateTransition(IState state)
@@ -18,7 +18,6 @@ public class StateBurning : State
 
     public override void Exit()
     {
-        Debug.Log("Exit Burning");
+        Debug.Log("Exit Game Finished State");
     }
-
 }

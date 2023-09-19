@@ -12,9 +12,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    SceneStateMachine sceneStateMachine = new SceneStateMachine();
-    BlockStateMachine blockStateMachine = new BlockStateMachine();
-    GameStateMachine gameStateMachine = new GameStateMachine();
+    SM_Scene sceneStateMachine = new SM_Scene();
+    SM_Block blockStateMachine = new SM_Block();
+    SM_Game gameStateMachine = new SM_Game();
     private float burnTimer = 0;
 
     private void Awake() 
@@ -45,13 +45,13 @@ public class GameManager : MonoBehaviour
         {
             if (sceneStateMachine.IsHomeSceneState)
             {
-                sceneStateMachine.TryChangeState(sceneStateMachine.StateGameScene);
+                sceneStateMachine.TryChangeState(sceneStateMachine.SSM_State_GameScene);
                 gameStateMachine.Initialize();
             }
             else if (sceneStateMachine.IsGameSceneState)
             {
-                sceneStateMachine.TryChangeState(sceneStateMachine.StateHomeScene);
-                blockStateMachine.TryChangeState(blockStateMachine.StateResting);
+                sceneStateMachine.TryChangeState(sceneStateMachine.SSM_State_HomeScene);
+                blockStateMachine.TryChangeState(blockStateMachine.BSM_State_Resting);
 
             }
         }
@@ -63,15 +63,15 @@ public class GameManager : MonoBehaviour
             {
                 if (gameStateMachine.IsPlaneTracked)
                 {
-                    gameStateMachine.TryChangeState(gameStateMachine.StateCursorPlaced);
+                    gameStateMachine.TryChangeState(gameStateMachine.GSM_State_CursorPlaced);
                 }
                 else if (gameStateMachine.IsCursorPlaced)
                 {
-                    gameStateMachine.TryChangeState(gameStateMachine.StateFirefighting);
+                    gameStateMachine.TryChangeState(gameStateMachine.GSM_State_Firefighting);
                 }
                 else if (gameStateMachine.IsFirefighting)
                 {
-                    gameStateMachine.TryChangeState(gameStateMachine.StateGameFinished);
+                    gameStateMachine.TryChangeState(gameStateMachine.GSM_State_GameFinished);
                 }
             }
         }
@@ -83,11 +83,11 @@ public class GameManager : MonoBehaviour
             {
                 if (gameStateMachine.IsFirefighting)
                 {
-                    gameStateMachine.TryChangeState(gameStateMachine.StatePaused);
+                    gameStateMachine.TryChangeState(gameStateMachine.GSM_State_Paused);
                 }
                 else if (gameStateMachine.IsPaused)
                 {
-                    gameStateMachine.TryChangeState(gameStateMachine.StateFirefighting);
+                    gameStateMachine.TryChangeState(gameStateMachine.GSM_State_Firefighting);
                 }
             }
         }
@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
             {
                 if (blockStateMachine.IsRestingState)
                 {
-                    blockStateMachine.TryChangeState(blockStateMachine.StateBurning);
+                    blockStateMachine.TryChangeState(blockStateMachine.BSM_State_Burning);
                 }
             }
         }
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
             burnTimer += Time.deltaTime;
             if (burnTimer >= 2)
             {
-                blockStateMachine.TryChangeState(blockStateMachine.StateBurnt);
+                blockStateMachine.TryChangeState(blockStateMachine.BSM_State_Burnt);
             }
         }
     }
@@ -118,6 +118,6 @@ public class GameManager : MonoBehaviour
     // private IEnumerator BurntAfterSeconds()
     // {
     //     yield return new WaitForSeconds(1);
-    //     blockStateMachine.TryChangeState(blockStateMachine.StateBurnt);
+    //     blockStateMachine.TryChangeState(blockStateMachine.BSM_State_Burnt);
     // }
 }
