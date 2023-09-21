@@ -11,6 +11,11 @@ public class AssetMaker : EditorWindow
     private List<GameObject> gameObjects = new List<GameObject>();
     // private List<bool> toggles = new List<bool>();
     private int selectedObjectIndex = -1; 
+    // GameObject prefabToLoad;
+
+    // int fillWidth = 1;
+    // int fillDepth = 1;
+    // int fillHeight = 1;
 
     private GameObject assetHolder;
     private GameObject selectedBlock;  // You will set this based on which radio button is checked
@@ -20,7 +25,8 @@ public class AssetMaker : EditorWindow
         Size_3x3 = 3,
         Size_5x5 = 5,
         Size_7x7 = 7,
-        Size_9x9 = 9
+        Size_9x9 = 9,
+        Size_11x11 = 11
     }
     private GridSize currentGridSize = GridSize.Size_5x5;
 
@@ -81,10 +87,30 @@ public class AssetMaker : EditorWindow
             gameObjects.Add(null);
         }
 
+        // Fill Grid
+        // GUILayout.Space(20);
+        // EditorGUILayout.LabelField("Fill Dimensions", EditorStyles.boldLabel);
+        // fillWidth = EditorGUILayout.IntField("Width:", fillWidth);
+        // fillDepth = EditorGUILayout.IntField("Depth:", fillDepth);
+        // fillHeight = EditorGUILayout.IntField("Height:", fillHeight);
+
+        // if (GUILayout.Button("Fill"))
+        // {
+        //     FillGrid();
+        // }
+
         GUILayout.Space(20);
         GUILayout.Label("Asset Creation", EditorStyles.boldLabel);
         assetName = EditorGUILayout.TextField("Asset Name:", assetName);
         savePath = EditorGUILayout.TextField("Save Path:", savePath);
+
+        // GUILayout.Space(60);
+        // GUILayout.Label("Load Prefab", EditorStyles.boldLabel);
+        // prefabToLoad = (GameObject)EditorGUILayout.ObjectField("Prefab:", prefabToLoad, typeof(GameObject), false);
+        // if (GUILayout.Button("Load Prefab"))
+        // {
+        //     LoadPrefabIntoGrid();
+        // }
 
         GUILayout.Space(60);
         if (GUILayout.Button("Save As Prefab"))
@@ -161,6 +187,73 @@ public class AssetMaker : EditorWindow
             _axisEnabled = false;
         }
     }
+
+    // void FillGrid()
+    // {
+    //     for (int x = 0; x < fillWidth; x++)
+    //     {
+    //         for (int y = 0; y < fillDepth; y++)
+    //         {
+    //             for (int z = 0; z < fillHeight; z++)
+    //             {
+    //                 InstantiatePrefabAtGridPosition(x, y, z);
+    //             }
+    //         }
+    //     }
+    // }
+
+    // void LoadPrefabIntoGrid()
+    // {
+    //     if (prefabToLoad == null)
+    //     {
+    //         Debug.LogWarning("No prefab selected.");
+    //         return;
+    //     }
+
+    //     // Calculate the middle position of the grid.
+    //     // Assuming gridWidth and gridHeight represent the dimensions of the grid.
+    //     float middleX = (float)currentGridSize * 0.1f;
+    //     float middleY = (float)currentGridSize * 0.1f;
+
+    //     // Calculate the world position for the middle of the grid.
+    //     // Assuming each cell has a size of cellSize and you have a method to convert grid coordinates to world position.
+    //     Vector3 middlePosition = GridToWorldPosition(middleX, middleY);
+
+    //     // Instantiate prefab at the calculated position.
+    //     GameObject instance = PrefabUtility.InstantiatePrefab(prefabToLoad) as GameObject;
+    //     instance.transform.position = middlePosition;
+
+    //     GameObject assetHolder = GameObject.Find("AssetHolder");
+
+    //     // Set the parent of the instance to be the AssetHolder.
+    //     if (assetHolder != null)
+    //     {
+    //         instance.transform.SetParent(assetHolder.transform);
+    //     }
+    //     else
+    //     {
+    //         Debug.LogWarning("AssetHolder not found.");
+    //     }
+    // }
+
+    // Vector3 GridToWorldPosition(float x, float y)
+    // {
+    //     // Assuming the bottom-left corner of the grid starts at (0, 0, 0)
+    //     // and cellSize is the size of each cell.
+    //     float worldX = x * 0.1f;
+    //     float worldY = y * 0.1f;
+
+    //     return new Vector3(worldX, worldY, 0);
+    // }
+
+    // void SavePrefabChanges()
+    // {
+    //     // Replace 'instance' with the actual GameObject instance you are working on.
+    //     if (instance != null)
+    //     {
+    //         PrefabUtility.SaveAsPrefabAsset(instance, AssetDatabase.GetAssetPath(prefab));
+    //     }
+    // }
 
     void OnSceneGUI(SceneView sceneView)
     {
