@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using UnityEngine;
 
 public class StateMachine
 {
@@ -21,7 +22,8 @@ public class StateMachine
     
     public void TryChangeState(State newState)
     {
-        _currentState.TryStateTransition(newState); 
+        Debug.Log($"TryChangeState ({newState.GetName()})\n");
+        _currentState.TryStateTransition(newState);
     }
     
     

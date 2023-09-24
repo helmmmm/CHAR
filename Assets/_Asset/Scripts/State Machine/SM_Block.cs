@@ -7,9 +7,9 @@ public class SM_Block : StateMachine
     private static SM_Block _instance;
     public static SM_Block Instance => _instance ??= new SM_Block();
 
-
     // States
     private BSM_State_Resting _stateResting;
+    // private BSM_State_Ignited _stateIgnited;
     private BSM_State_Burning _stateBurning;
     private BSM_State_Burnt _stateBurnt;
 
@@ -28,6 +28,10 @@ public class SM_Block : StateMachine
     {
         // set the initial state
         SetInitialState(BSM_State_Resting);
-        
+    }
+
+    public void CheckComponent()
+    {
+        Debug.Log("I'm here");
     }
 }
