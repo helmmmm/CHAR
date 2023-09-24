@@ -4,19 +4,24 @@ public class SSM_State_GameScene : State
 {
     public SSM_State_GameScene(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override void Enter()
+    public override string GetName()
     {
-        Debug.Log("Enter Game Scene");
+        return "SSM_State_GameScene";
     }
+
+    // public override void Enter()
+    // {
+    //     Debug.Log("Enter Game Scene");
+    // }
 
     public override void TryStateTransition(IState state)
     {
         ExecuteStateTransition(state);
     }
 
-    public override void Exit()
-    {
-        Debug.Log("Exit Game Scene");
-    }
+    // public override void Exit()
+    // {
+    //     Debug.Log("Exit Game Scene");
+    // }
     
 }

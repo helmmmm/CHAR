@@ -6,18 +6,23 @@ public class GSM_State_Firefighting : State
 {
     public GSM_State_Firefighting(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override void Enter()
+    public override string GetName()
     {
-        Debug.Log("Enter Firefighting State");
+        return "GSM_State_Firefighting";
     }
+
+    // public override void Enter()
+    // {
+    //     Debug.Log("Enter Firefighting State");
+    // }
 
     public override void TryStateTransition(IState state)
     {
         ExecuteStateTransition(state);
     }
 
-    public override void Exit()
-    {
-        Debug.Log("Exit Firefighting State");
-    }
+    // public override void Exit()
+    // {
+    //     Debug.Log("Exit Firefighting State");
+    // }
 }

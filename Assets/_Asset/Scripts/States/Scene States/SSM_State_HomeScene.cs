@@ -4,18 +4,23 @@ public class SSM_State_HomeScene : State
 {
     public SSM_State_HomeScene(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override void Enter()
+    public override string GetName()
     {
-        Debug.Log("Enter Home Scene");
+        return "SSM_State_HomeScene";
     }
+
+    // public override void Enter()
+    // {
+    //     Debug.Log("Enter Home Scene");
+    // }
 
     public override void TryStateTransition(IState state)
     {
         ExecuteStateTransition(state);
     }
 
-    public override void Exit()
-    {
-        Debug.Log("Exit Home Scene");
-    }
+    // public override void Exit()
+    // {
+    //     Debug.Log("Exit Home Scene");
+    // }
 }

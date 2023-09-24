@@ -8,7 +8,7 @@ TagManager:
   - BlueGoal
   - RedGoal
   - ReflectionStatic
-  - Burnable Voxel
+  - Burnable Block
   layers:
   - Default
   - TransparentFX

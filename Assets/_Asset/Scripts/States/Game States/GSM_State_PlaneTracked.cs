@@ -6,18 +6,23 @@ public class GSM_State_PlaneTracked : State
 {
     public GSM_State_PlaneTracked(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override void Enter()
+    public override string GetName()
     {
-        Debug.Log("Enter Plane Tracked State");
+        return "GSM_State_PlaneTracked";
     }
+
+    // public override void Enter()
+    // {
+    //     Debug.Log("Enter Plane Tracked State");
+    // }
 
     public override void TryStateTransition(IState state)
     {
         ExecuteStateTransition(state);
     }
 
-    public override void Exit()
-    {
-        Debug.Log("Exit Plan Tracked State");
-    }
+    // public override void Exit()
+    // {
+    //     Debug.Log("Exit Plan Tracked State");
+    // }
 }

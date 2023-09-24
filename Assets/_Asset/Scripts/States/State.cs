@@ -6,6 +6,7 @@ public interface IState
     void Exit();
 
     void TryStateTransition(IState newSate);
+    string GetName();
 }
 
 public class State : IState
@@ -20,12 +21,12 @@ public class State : IState
     }
 
 
-    public virtual void Enter()
+    public void Enter()
     {
         OnEnter?.Invoke();
     }
 
-    public virtual void Exit()
+    public void Exit()
     {
         OnExit?.Invoke();
     }
@@ -39,6 +40,10 @@ public class State : IState
         MyStateMachine.ExecuteStateTransition(newSate);
     }
 
+    public virtual string GetName()
+    {
+        throw new NotImplementedException();
+    }
     
     protected void ExecuteStateTransition(IState newState)
     {
