@@ -2,12 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wood : BaseBlock
+public class Wood : Block
 {
-
-    private void Start()
-    {
-        base.ignitionThreshold = this.ignitionThreshold;
-        base.burnHP = this.burnHP;
-    }
+    
 }

@@ -5,11 +5,16 @@ using System;
 
 public class Block : MonoBehaviour
 {
-    private float _currentTemperature = 30f; // Temperature of the voxel
-    private float _ignitionTemperature = 90f; // Temperature at which it ignites
-    private float _heatTransferRate = 30f; // How much heat it emits
-    private float _burnHP = 120f; // Block's HP against fire
-    private float _burnDMG = 30f; // Damage per second from fire
+    Renderer rend;
+    private Material _defaultMaterial;
+    private Material _burningMaterial;
+    private GameObject _fireVFX;
+
+    private float _currentTemperature = 20f; // Temperature of the voxel
+    private float _ignitionTemperature = 140f; // Temperature at which it ignites
+    private float _heatTransferRate = 20f; // How much heat it emits
+    private float _burnHP = 220f; // Block's HP against fire
+    private float _burnDMG = 20f; // Damage per second from fire
 
     public bool manualIgnition = false;
 
@@ -25,11 +30,22 @@ public class Block : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        rend = GetComponent<Renderer>();
+        rend.enabled = true;
+
+        _defaultMaterial = GetComponent<Renderer>().materials[0];
+        _burningMaterial = Resources.Load<Material>("Materials/Burning");
+        
+        _fireVFX = Resources.Load<GameObject>("VFX/Fire VFX");
+
         _smBlock = new SM_Block();
         _smBlock.Initialize();
         _smBlock.CheckComponent();
 
         _smBlock.BSM_State_Burnt.OnEnter += Burnt;
+
+        _smBlock.BSM_State_Burning.OnEnter += ChangeToBurningMaterial;
+        _smBlock.BSM_State_Burning.OnEnter += SpawnFireVFX;
 
         _collider = GetComponent<Collider>();
 
@@ -120,6 +136,17 @@ public class Block : MonoBehaviour
                 _smBlock.TryChangeState(_smBlock.BSM_State_Burnt);
             }
         }
+    }
+
+    void ChangeToBurningMaterial()
+    {
+        rend.material = _burningMaterial;
+    }
+
+    void SpawnFireVFX()
+    {
+        GameObject fireInstance = Instantiate(_fireVFX, transform.position, Quaternion.identity);
+        fireInstance.transform.parent = this.transform;
     }
 
     void Burn()
