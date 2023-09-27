@@ -13,9 +13,8 @@ GameObject:
   - component: {fileID: 8194660485716367023}
   - component: {fileID: 1674243155484846318}
   - component: {fileID: 7164923947064657136}
-  - component: {fileID: 4707547490760157702}
   m_Layer: 0
-  m_Name: 'Wood '
+  m_Name: Brick
   m_TagString: Burnable Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b1a31efa90834461cab2f94b0945df2b, type: 2}
+  - {fileID: 2100000, guid: c6fe3e564d13e4537af0f3cc70ef7fc7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -115,16 +114,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4707547490760157702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8194660485716367009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a337a7c1a53c042678458158e568116a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  manualIgnition: 0
