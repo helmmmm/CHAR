@@ -55,8 +55,11 @@ VisualEffect:
       - m_Value: 0.7
         m_Name: Fire Rising Speed
         m_Overridden: 1
-      - m_Value: 0.3
+      - m_Value: 0.4
         m_Name: Smoke Rising Speed
+        m_Overridden: 1
+      - m_Value: 5
+        m_Name: Smoke Max Life
         m_Overridden: 1
     m_Vector2f:
       m_Array: []

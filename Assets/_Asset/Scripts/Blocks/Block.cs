@@ -9,6 +9,7 @@ public class Block : MonoBehaviour
     private Material _defaultMaterial;
     private Material _burningMaterial;
     private GameObject _fireVFX;
+    private GameObject _fireVFXInstance = null;
 
     protected float _currentTemperature = 20f; // Temperature of the voxel
     protected float _ignitionTemperature = 140f; // Temperature at which it ignites
@@ -69,6 +70,7 @@ public class Block : MonoBehaviour
         {
             _nearbyBlockList.Add(other.gameObject);
             other.gameObject.GetComponent<Block>().OnBlockBurnt += RemoveFromNearbyBlockList;
+            other.gameObject.GetComponent<Block>().OnBlockBurnt += TrySpawnFireVFX;
         }    
     }
 
@@ -78,12 +80,19 @@ public class Block : MonoBehaviour
         {
             _nearbyBlockList.Remove(other.gameObject);
             other.gameObject.GetComponent<Block>().OnBlockBurnt -= RemoveFromNearbyBlockList;
-        }    
+            other.gameObject.GetComponent<Block>().OnBlockBurnt -= TrySpawnFireVFX;
+        }
     }
 
     private void RemoveFromNearbyBlockList(GameObject otherBlock)
     {
         _nearbyBlockList.Remove(otherBlock);
+    }
+
+    private void TrySpawnFireVFX(GameObject otherBlock)
+    {
+        if(_fireVFXInstance = null)
+            SpawnFireVFX();
     }
 
     IEnumerator co_EmitHeat()
@@ -98,19 +107,39 @@ public class Block : MonoBehaviour
             foreach (GameObject block in _nearbyBlockList)
             {
                 Block thatBlock = block.GetComponent<Block>();
-                thatBlock.GainHeat();
+                thatBlock.GainHeat(transform.position.y);
             }
         }
     }
 
-    void GainHeat()
+    void GainHeat(float heatSourcePosY)
     {
+        float heatFactor = 1f;
+
         if (!_smBlock.IsRestingState)
         {
             return;
         }
 
-        _currentTemperature += _heatTransferRate;
+        if (UnityEngine.Random.Range(0, 100) > 40)
+        {
+            return;
+        }
+
+        if (Mathf.Abs(heatSourcePosY - transform.position.y) < 0.01f)
+        {
+            heatFactor = 1f;
+        }
+        else if (heatSourcePosY > transform.position.y)
+        {
+            heatFactor = 0.5f;
+        }
+        else if (heatSourcePosY < transform.position.y)
+        {
+            heatFactor = 1.5f;
+        }
+
+        _currentTemperature += _heatTransferRate * heatFactor;
             
         if (_currentTemperature >= _ignitionTemperature)
         {
@@ -145,8 +174,24 @@ public class Block : MonoBehaviour
 
     void SpawnFireVFX()
     {
-        GameObject fireInstance = Instantiate(_fireVFX, transform.position, Quaternion.identity);
-        fireInstance.transform.parent = this.transform;
+        // if (contact list has 6 || has 5 and the bottom is open)
+        if (_nearbyBlockList.Count == 6)
+            return;
+        
+        if (_nearbyBlockList.Count == 5)
+        {
+            bool hasBottom = false;
+            foreach(GameObject block in _nearbyBlockList)
+            {
+                if (block.transform.position.y < transform.position.y)
+                    hasBottom = true;
+            }
+            if (!hasBottom)
+                return;
+        }
+
+        _fireVFXInstance = Instantiate(_fireVFX, transform.position, Quaternion.identity);
+        _fireVFXInstance.transform.parent = this.transform;
     }
 
     void Burn()
