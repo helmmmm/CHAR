@@ -10,11 +10,11 @@ public class Block : MonoBehaviour
     private Material _burningMaterial;
     private GameObject _fireVFX;
 
-    private float _currentTemperature = 20f; // Temperature of the voxel
-    private float _ignitionTemperature = 140f; // Temperature at which it ignites
-    private float _heatTransferRate = 20f; // How much heat it emits
-    private float _burnHP = 220f; // Block's HP against fire
-    private float _burnDMG = 20f; // Damage per second from fire
+    protected float _currentTemperature = 20f; // Temperature of the voxel
+    protected float _ignitionTemperature = 140f; // Temperature at which it ignites
+    protected float _heatTransferRate = 20f; // How much heat it emits
+    protected float _burnHP = 220f; // Block's HP against fire
+    protected float _burnDMG = 20f; // Damage per second from fire
 
     public bool manualIgnition = false;
 
@@ -28,7 +28,7 @@ public class Block : MonoBehaviour
     
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         rend = GetComponent<Renderer>();
         rend.enabled = true;
