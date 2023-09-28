@@ -10,7 +10,7 @@ public class Brick : Block
         _currentTemperature = 20f;
         _ignitionTemperature = 200f;
         _heatTransferRate = 20f;
-        _burnHP = 300f;
+        _burnHP = 30000f;
         _burnDMG = 20f;
     }
 }

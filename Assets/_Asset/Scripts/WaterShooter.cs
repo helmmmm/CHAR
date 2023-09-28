@@ -8,7 +8,7 @@ public class WaterShooter : MonoBehaviour
     private Camera _mainCamera;
 
     private float _timeSinceLastShot = 0f;
-    private float _fireRate = 0.025f;
+    private float _fireRate = 0.05f;
     private int _streamCount = 3;
     private float _spreadAngle = 3f;
 
