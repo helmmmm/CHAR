@@ -9,6 +9,7 @@ TagManager:
   - RedGoal
   - ReflectionStatic
   - Burnable Block
+  - Water
   layers:
   - Default
   - TransparentFX
