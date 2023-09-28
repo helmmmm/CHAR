@@ -12,10 +12,12 @@ public class Block : MonoBehaviour
     private GameObject _fireVFXInstance = null;
 
     protected float _currentTemperature = 20f; // Temperature of the voxel
+    protected float _minTemperature = 20f; // Minimum temperature of the voxel
     protected float _ignitionTemperature = 140f; // Temperature at which it ignites
     protected float _heatTransferRate = 20f; // How much heat it emits
     protected float _burnHP = 220f; // Block's HP against fire
     protected float _burnDMG = 20f; // Damage per second from fire
+    protected float _coolingRate = 60f; // How much heat it loses per second
 
     public bool manualIgnition = false;
 
@@ -43,10 +45,13 @@ public class Block : MonoBehaviour
         _smBlock.Initialize();
         _smBlock.CheckComponent();
 
-        _smBlock.BSM_State_Burnt.OnEnter += Burnt;
+        _smBlock.BSM_State_Resting.OnEnter += () => { rend.material = _defaultMaterial; };
+        _smBlock.BSM_State_Resting.OnEnter += DespawnFireVFX;
 
-        _smBlock.BSM_State_Burning.OnEnter += ChangeToBurningMaterial;
+        _smBlock.BSM_State_Burning.OnEnter += () => { rend.material = _burningMaterial; };
         _smBlock.BSM_State_Burning.OnEnter += SpawnFireVFX;
+
+        _smBlock.BSM_State_Burnt.OnEnter += Burnt;
 
         _collider = GetComponent<Collider>();
 
@@ -71,7 +76,14 @@ public class Block : MonoBehaviour
             _nearbyBlockList.Add(other.gameObject);
             other.gameObject.GetComponent<Block>().OnBlockBurnt += RemoveFromNearbyBlockList;
             other.gameObject.GetComponent<Block>().OnBlockBurnt += TrySpawnFireVFX;
-        }    
+        }
+
+        if (other.gameObject.tag == "Water")
+        {
+            Debug.Log($"Hit with {other.gameObject.name}");
+            TryCoolDown(_coolingRate);
+            Destroy(other.gameObject);
+        }
     }
 
     void OnTriggerExit(Collider other) 
@@ -147,6 +159,24 @@ public class Block : MonoBehaviour
         }
     }
 
+    void TryCoolDown(float coolingRate)
+    {
+        if (_currentTemperature <= _minTemperature)
+            return;
+
+        if (_smBlock.IsBurningState)
+        {
+            _currentTemperature -= coolingRate;
+
+            if (_currentTemperature <= _ignitionTemperature)
+                _smBlock.TryChangeState(_smBlock.BSM_State_Resting);
+        }
+        else
+            _currentTemperature -= coolingRate * 0.5f;
+
+        Debug.Log($"[{gameObject.name}] Temperature: {_currentTemperature}\n");
+    }
+
     IEnumerator co_Burn()
     {
         while (true)
@@ -158,18 +188,13 @@ public class Block : MonoBehaviour
             }
 
             _burnHP -= _burnDMG;
-            Debug.Log($"[{gameObject.name}] HP: {_burnHP}\n");
+            // Debug.Log($"[{gameObject.name}] HP: {_burnHP}\n");
 
             if (_burnHP <= 0)
             {
                 _smBlock.TryChangeState(_smBlock.BSM_State_Burnt);
             }
         }
-    }
-
-    void ChangeToBurningMaterial()
-    {
-        rend.material = _burningMaterial;
     }
 
     void SpawnFireVFX()
@@ -194,6 +219,12 @@ public class Block : MonoBehaviour
         _fireVFXInstance.transform.parent = this.transform;
     }
 
+    void DespawnFireVFX()
+    {
+        if (_fireVFXInstance != null)
+            Destroy(_fireVFXInstance);
+    }
+
     void Burn()
     {
         if (_smBlock.IsBurningState)
@@ -209,7 +240,7 @@ public class Block : MonoBehaviour
 
     void Burnt()
     {
-        Debug.Log($"[{gameObject.name}] is Burnt");
+        // Debug.Log($"[{gameObject.name}] is Burnt");
         OnBlockBurnt?.Invoke(gameObject); // ? to check if OnBlockBurnt is null
         Destroy(gameObject);
     }
