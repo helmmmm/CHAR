@@ -32,6 +32,6 @@ public class SM_Block : StateMachine
 
     public void CheckComponent()
     {
-        Debug.Log("I'm here");
+        // Debug.Log("I'm here");
     }
 }
