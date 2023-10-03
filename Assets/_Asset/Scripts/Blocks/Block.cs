@@ -60,16 +60,6 @@ public class Block : MonoBehaviour
         StartCoroutine(co_Burn());
     }
 
-    private void OnEnable()
-    {
-    
-    }
-
-    private void OnDisable() 
-    {
- 
-    }
-
     // Update is called once per frame
     void Update()
     {
