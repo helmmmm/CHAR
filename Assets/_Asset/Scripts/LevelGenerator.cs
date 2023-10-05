@@ -141,14 +141,10 @@ public class LevelGenerator : MonoBehaviour
     {
         foreach (Transform child in parent)
         {
-            // Renderer rd = child.GetComponent<Renderer>();
-            // if (rd != null)
-            // {
-            //     // rd.enabled = show;
-            // }
             child.gameObject.SetActive(show);
 
             ShowMesh(child, show);
         }
     }
 }
+
