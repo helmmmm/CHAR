@@ -153,7 +153,7 @@ public class Block : MonoBehaviour
         }
     }
 
-    void TryCoolDown(float coolingRate)
+    public void TryCoolDown(float coolingRate)
     {
         if (_currentTemperature <= _minTemperature)
             return;
