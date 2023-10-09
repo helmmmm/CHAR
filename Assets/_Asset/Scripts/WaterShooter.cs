@@ -4,22 +4,25 @@ using UnityEngine;
 
 public class WaterShooter : MonoBehaviour
 {
+    public GameObject _shootingPoint; // Reference to the child object
+    public ParticleSystem _splashParticleSystem; 
     private GameObject _waterPrefab;
     private Camera _mainCamera;
 
     private float _timeSinceLastShot = 0f;
-    private float _fireRate = 0.05f;
-    private int _streamCount = 3;
-    private float _spreadAngle = 3f;
+    private float _fireRate = 0.02f;
 
-    // Start is called before the first frame update
     void Start()
     {
         _waterPrefab = Resources.Load<GameObject>("Prefabs/Water");
         _mainCamera = Camera.main;
+
+        if (_shootingPoint == null)
+        {
+            Debug.LogError("Shooting point is not set!");
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButton(0))
@@ -36,14 +39,38 @@ public class WaterShooter : MonoBehaviour
 
     private void ShootWater()
     {
-        GameObject water = Instantiate(_waterPrefab, _mainCamera.transform.position, Quaternion.identity);
-        // water.transform.rotation = Quaternion.Euler(new Vector3(0.0f, 0.0f, 0.0f));
+        // Calculate the position for the bottom-right corner of the screen in screen coordinates
+        Vector3 bottomRightScreen = new Vector3(Screen.width, 10, 2); // Z value represents distance from the camera, you may adjust this value
+        
+        // Convert screen to world coordinates
+        Vector3 bottomRightWorld = _mainCamera.ScreenToWorldPoint(bottomRightScreen);
 
-        // Vector3 direction = Quaternion.Euler(0, _spreadAngle * (i - _streamCount / 2), 0) * _mainCamera.transform.forward;
+        _shootingPoint.transform.position = bottomRightWorld;
 
+        // Instantiate water particles at that position
+        GameObject water = Instantiate(_waterPrefab, _shootingPoint.transform.position, Quaternion.identity);
+
+        // Calculate the direction to shoot in towards the screen center
+        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 1.4f, 5); // Z value represents distance from the camera
+        Vector3 centerWorld = _mainCamera.ScreenToWorldPoint(screenCenter + new Vector3(0f, 3f, 0f));
+        Vector3 shootDirection = (centerWorld - bottomRightWorld).normalized;
+
+        float lerpValue = 0.3f; // You can adjust this value to make the angle more or less steep
+        Vector3 angledShootDirection = Vector3.Lerp(shootDirection, Vector3.up, lerpValue).normalized;
+
+
+        // Align the splash particle system
+        _splashParticleSystem.transform.position = _shootingPoint.transform.position;
+        _splashParticleSystem.transform.rotation = Quaternion.LookRotation(shootDirection);
+
+        // Activate/Play the particle system
+        _splashParticleSystem.Play();
+
+
+        // Apply the velocity and force
         Rigidbody rb = water.GetComponent<Rigidbody>();
-        rb.velocity = new Vector3(0f, 0.3f, 0f);
         float force = 300.0f;
-        rb.AddForce(_mainCamera.transform.forward * force);
+        rb.velocity = angledShootDirection * 0.3f; // Adjust speed as necessary
+        rb.AddForce(angledShootDirection * force);
     }
 }
