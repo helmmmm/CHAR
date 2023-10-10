@@ -16355,6 +16355,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Water Unit
       objectReference: {fileID: 0}
+    - target: {fileID: 1909767832630709239, guid: df6a0d1c838d34353b2487195df5106d, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1909767832630709239, guid: df6a0d1c838d34353b2487195df5106d, type: 3}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 0.3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df6a0d1c838d34353b2487195df5106d, type: 3}
 --- !u!1001 &5927383708850916966
