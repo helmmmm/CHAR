@@ -6,9 +6,7 @@ public class Water : MonoBehaviour
 {
     private float _timeLived = 0f;
     private float _maxTime = 3f;
-    public int _splashParticles = 5;
-    public float _splashForce = 3f;
-    private GameObject _splashPrefab;
+    public ParticleSystem _collisionSplash;
 
     // Start is called before the first frame update
     void Start()
@@ -25,22 +23,25 @@ public class Water : MonoBehaviour
             Destroy(gameObject);
     }
 
-    // private void OnTriggerEnter(Collider other) 
-    // {
-    //     for (int i = 0; i < _splashParticles; i++)
-    //     {
-    //         Debug.Log("Splash!");
-    //         _splashPrefab = Resources.Load<GameObject>("Prefabs/Water Splash");
-    //         GameObject splash = Instantiate(_splashPrefab, transform.position, Quaternion.identity);
-    //         Rigidbody rb = splash.GetComponent<Rigidbody>();
+    private void OnTriggerEnter(Collider other) 
+    {
+        if (other.CompareTag("Burnable Block"))
+        {
+            // other.GetComponent<Block>().TryCoolDown(10f);
+            GameObject newSplash = Instantiate(_collisionSplash.gameObject, transform.position, Quaternion.identity);
+            ParticleSystem ps = newSplash.GetComponent<ParticleSystem>();
+            if (ps != null)
+            {
+                newSplash.AddComponent<CoroutineRunner>().RunCoroutine(co_PlayAndDestroy(ps, newSplash));
+            }
+            Destroy(gameObject);
+        }    
+    }
 
-    //         Vector3 randomDir = new Vector3(
-    //             Random.Range(-1f, 1f), 
-    //             Random.Range(-1f, 1f), 
-    //             Random.Range(-1f, 1f)
-    //         ).normalized;
-
-    //         rb.AddForce(randomDir * _splashForce, ForceMode.Impulse);
-    //     }
-    // }
+    private IEnumerator co_PlayAndDestroy(ParticleSystem ps, GameObject obj)
+    {
+        ps.Play();
+        yield return new WaitForSeconds(1f);
+        Destroy(obj);
+    }
 }
