@@ -13,10 +13,14 @@ public class WaterShooter : MonoBehaviour
     private float _timeSinceLastShot = 0f;
     private float _fireRate = 0.02f;
 
+    private float _capacity = 100f;
+    private float _currentWaterLevel;
+
     void Start()
     {
         _mainCamera = Camera.main;
         _waterPrefab = Resources.Load<GameObject>("Prefabs/Water Unit");
+        _currentWaterLevel = _capacity;
 
         if (_shootingPoint == null)
         {
@@ -30,12 +34,21 @@ public class WaterShooter : MonoBehaviour
         {
             _timeSinceLastShot += Time.deltaTime;
 
-            if (_timeSinceLastShot >= _fireRate)
+            if (_timeSinceLastShot >= _fireRate && _currentWaterLevel > 0f)
             {
                 ShootWater();
+                _currentWaterLevel -= 1f;
                 _timeSinceLastShot = 0f;
             }
         }
+        else
+        {
+            if (_currentWaterLevel < _capacity)
+            {
+                _currentWaterLevel += 10f * Time.deltaTime;
+            }
+        }
+        Debug.Log(_currentWaterLevel);
     }
 
     private void ShootWater()
