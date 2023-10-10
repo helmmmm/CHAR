@@ -5,7 +5,8 @@ using UnityEngine;
 public class WaterShooter : MonoBehaviour
 {
     public GameObject _shootingPoint; // Reference to the child object
-    public ParticleSystem _splashParticleSystem; 
+    // private ParticleSystem _splashParticles;
+    // private GameObject _waterCollider;
     private GameObject _waterPrefab;
     private Camera _mainCamera;
 
@@ -14,8 +15,8 @@ public class WaterShooter : MonoBehaviour
 
     void Start()
     {
-        _waterPrefab = Resources.Load<GameObject>("Prefabs/Water");
         _mainCamera = Camera.main;
+        _waterPrefab = Resources.Load<GameObject>("Prefabs/Water Unit");
 
         if (_shootingPoint == null)
         {
@@ -57,14 +58,6 @@ public class WaterShooter : MonoBehaviour
 
         float lerpValue = 0.3f; // You can adjust this value to make the angle more or less steep
         Vector3 angledShootDirection = Vector3.Lerp(shootDirection, Vector3.up, lerpValue).normalized;
-
-
-        // Align the splash particle system
-        _splashParticleSystem.transform.position = _shootingPoint.transform.position;
-        _splashParticleSystem.transform.rotation = Quaternion.LookRotation(shootDirection);
-
-        // Activate/Play the particle system
-        _splashParticleSystem.Play();
 
 
         // Apply the velocity and force
