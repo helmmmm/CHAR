@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class WaterShooter : MonoBehaviour
 {
+    // private ObjectPool<GameObject> _waterPool;
     public GameObject _shootingPoint; // Reference to the child object
-    // private ParticleSystem _splashParticles;
-    // private GameObject _waterCollider;
     private GameObject _waterPrefab;
     private Camera _mainCamera;
 
@@ -21,6 +21,16 @@ public class WaterShooter : MonoBehaviour
         _mainCamera = Camera.main;
         _waterPrefab = Resources.Load<GameObject>("Prefabs/Water Unit");
         _currentWaterLevel = _capacity;
+
+        // _waterPool = new ObjectPool<GameObject>(() => 
+        //     Instantiate(_waterPrefab), 
+        //     water => water.SetActive(true), 
+        //     water => water.SetActive(false), 
+        //     null,
+        //     true, 
+        //     5,
+        //     10
+        // );
 
         if (_shootingPoint == null)
         {
@@ -63,6 +73,11 @@ public class WaterShooter : MonoBehaviour
 
         // Instantiate water particles at that position
         GameObject water = Instantiate(_waterPrefab, _shootingPoint.transform.position, Quaternion.identity);
+        // GameObject water = _waterPool.Get();
+        // waterScript._waterShooter = this;
+        // GameObject water = Lean.Pool.LeanPool.Spawn(_waterPrefab, _shootingPoint.transform.position, Quaternion.identity);
+        // GameObject water = MyPooler.ObjectPooler.Instance.GetFromPool("Water", _shootingPoint.transform.position, Quaternion.identity);
+        
 
         // Calculate the direction to shoot in towards the screen center
         Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 1.4f, 5); // Z value represents distance from the camera
@@ -79,4 +94,9 @@ public class WaterShooter : MonoBehaviour
         rb.velocity = angledShootDirection * 0.3f; // Adjust speed as necessary
         rb.AddForce(angledShootDirection * force);
     }
+
+    // public void ReleaseWaterToPool(GameObject water)
+    // {
+    //     _waterPool.Release(water);
+    // }
 }
