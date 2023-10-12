@@ -4881,6 +4881,7 @@ GameObject:
   - component: {fileID: 1883406092417401403}
   - component: {fileID: 7300688507572407541}
   - component: {fileID: 46115170}
+  - component: {fileID: 3001981332791760151}
   m_Layer: 0
   m_Name: Water Unit
   m_TagString: Untagged
@@ -4934,6 +4935,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collisionSplash: {fileID: 1883406092154404990}
+--- !u!114 &3001981332791760151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883406092417401404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a59bf981769e4a4f9230599cab9261a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cachedPool: {fileID: 0}
 --- !u!1 &7169000241147285578
 GameObject:
   m_ObjectHideFlags: 0
@@ -5103,8 +5117,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.6
-      minScalar: 0.4
+      scalar: 0.4
+      minScalar: 0.3
       maxCurve:
         serializedVersion: 2
         m_Curve:

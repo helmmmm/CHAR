@@ -7,11 +7,13 @@ public class Water : MonoBehaviour
     private float _timeLived = 0f;
     private float _maxTime = 3f;
     public ParticleSystem _collisionSplash;
+    
+    // public WaterShooter _waterShooter;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        // _waterShooter = FindObjectOfType<WaterShooter>();
     }
 
     // Update is called once per frame
@@ -21,6 +23,9 @@ public class Water : MonoBehaviour
 
         if (_timeLived >= _maxTime)
             Destroy(gameObject);
+            // _waterShooter.ReleaseWaterToPool(gameObject);
+            // Lean.Pool.LeanPool.Despawn(gameObject);
+            // MyPooler.ObjectPooler.Instance.ReturnToPool("Water", gameObject);
     }
 
     private void OnTriggerEnter(Collider other) 
@@ -34,6 +39,9 @@ public class Water : MonoBehaviour
             {
                 newSplash.AddComponent<CoroutineRunner>().RunCoroutine(co_PlayAndDestroy(ps, newSplash));
             }
+            // _waterShooter.ReleaseWaterToPool(gameObject);
+            // Lean.Pool.LeanPool.Despawn(gameObject);
+            // MyPooler.ObjectPooler.Instance.ReturnToPool("Water", gameObject);
             Destroy(gameObject);
         }    
     }
