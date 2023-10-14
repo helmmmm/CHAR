@@ -12,6 +12,7 @@ public class WaterShooter : MonoBehaviour
 
     private float _timeSinceLastShot = 0f;
     private float _fireRate = 0.02f;
+    public float _firePower = 300f;
 
     private float _capacity = 100f;
     private float _currentWaterLevel;
@@ -58,7 +59,7 @@ public class WaterShooter : MonoBehaviour
                 _currentWaterLevel += 10f * Time.deltaTime;
             }
         }
-        Debug.Log(_currentWaterLevel);
+        // Debug.Log(_currentWaterLevel);
     }
 
     private void ShootWater()
@@ -90,7 +91,7 @@ public class WaterShooter : MonoBehaviour
 
         // Apply the velocity and force
         Rigidbody rb = water.GetComponent<Rigidbody>();
-        float force = 300.0f;
+        float force = _firePower;
         rb.velocity = angledShootDirection * 0.3f; // Adjust speed as necessary
         rb.AddForce(angledShootDirection * force);
     }

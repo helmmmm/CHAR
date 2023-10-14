@@ -132,6 +132,7 @@ using UnityEngine;
       if (_placedObjects.Count > 0)
       {
         _levelPlaced = true;
+        SM_Game.Instance.TryChangeState(SM_Game.Instance.GSM_State_CursorPlaced);
         _cursorRenderer.SetCursorVisibility(false); // Hide the cursor
       }
       

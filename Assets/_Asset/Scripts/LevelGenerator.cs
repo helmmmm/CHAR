@@ -7,7 +7,7 @@ public class LevelGenerator : MonoBehaviour
     public List<GameObject> _burnablePrefabs = new List<GameObject>();
     // private List<Vector3> _usedPositions = new List<Vector3>();
     public int _burnableCount = 10; // Use density?
-    private SM_Game _smGame;
+    private SM_Game _smGame => SM_Game.Instance;
     private Renderer _levelBaseRenderer;
     private Vector3 _levelBaseMin;
     private Vector3 _levelBaseMax;
@@ -17,9 +17,9 @@ public class LevelGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _smGame = new SM_Game();
-        _smGame.Initialize();
-        _smGame.GSM_State_CursorPlaced.OnEnter += GenerateLevel;
+        // _smGame.Initialize();
+        // _smGame.GSM_State_CursorPlaced.OnEnter += GenerateLevel;
+        GenerateLevel();
         _levelBaseRenderer = GetComponent<Renderer>();
         _levelBaseMin = _levelBaseRenderer.bounds.min;
         _levelBaseMax = _levelBaseRenderer.bounds.max;
@@ -28,13 +28,13 @@ public class LevelGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            if (!_generationInProgress)
-            {
-                GenerateLevel();
-            }
-        }
+        // if (Input.GetMouseButtonDown(0))
+        // {
+        //     if (!_generationInProgress)
+        //     {
+        //         GenerateLevel();
+        //     }
+        // }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -53,6 +53,8 @@ public class LevelGenerator : MonoBehaviour
 
     IEnumerator co_GenerateLevel()
     {
+        yield return new WaitForSeconds(0.5f);
+        // Generating level UI message
         _generationInProgress = true;
         List<Bounds> createdBoundsList = new List<Bounds>();
         int positionSearchCount = 0;
@@ -87,8 +89,16 @@ public class LevelGenerator : MonoBehaviour
             spawnedObj.transform.parent = transform;
             ShowMesh(spawnedObj.transform, true);
             createdBoundsList.Add(spawnedObj.GetComponent<Collider>().bounds);
+            yield return new WaitForSeconds(0.25f);
         }
         _generationInProgress = false;
+
+        _smGame.TryChangeState(_smGame.GSM_State_LevelGenerated);
+        
+        // levelgeneracted state
+        // Start game button onenter levelgenerated
+        // pressing will exit the state and enter firefighting state
+        // Countdown
     }
 
     private GameObject GetRandomPrefab()

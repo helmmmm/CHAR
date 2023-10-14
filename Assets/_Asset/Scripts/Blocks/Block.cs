@@ -71,6 +71,12 @@ public class Block : MonoBehaviour
         }
     }
 
+    public void Ignite()
+    {
+        _smBlock.TryChangeState(_smBlock.BSM_State_Burning);
+        _currentTemperature = _ignitionTemperature;
+    }
+
     void OnTriggerEnter(Collider other) 
     {
         if (other.gameObject.tag == "Burnable Block")
