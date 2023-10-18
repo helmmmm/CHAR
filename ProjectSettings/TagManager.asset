@@ -11,6 +11,7 @@ TagManager:
   - Burnable Block
   - Water
   - Water Splash
+  - Burnable
   layers:
   - Default
   - TransparentFX

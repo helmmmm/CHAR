@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Asset/Scenes/Testing_Tracking_Shooting.unity
-    guid: 4dcac05064aac481faebda94e7ed49f0
+    path: Assets/_Asset/Scenes/Home.unity
+    guid: 52192430960774b8499ca1ca698ff71e
+  - enabled: 1
+    path: Assets/_Asset/Scenes/Game.unity
+    guid: d8fd28160d6dc460289e5d876aeb87fa
   m_configObjects: {}

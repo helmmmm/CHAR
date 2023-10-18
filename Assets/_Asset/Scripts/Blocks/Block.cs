@@ -43,12 +43,12 @@ public class Block : MonoBehaviour
 
         _smBlock = new SM_Block();
         _smBlock.Initialize();
-        _smBlock.CheckComponent();
+        // _smBlock.CheckComponent();
 
         _smBlock.BSM_State_Resting.OnEnter += ToDefaultMaterial;
 
-        _smBlock.BSM_State_Burning.OnEnter += ToBurningMaterial;
-        _smBlock.BSM_State_Burning.OnEnter += SpawnFireVFX;
+        _smBlock.BSM_State_Burning.OnEnter += ToBurningMaterial; // can combine
+        _smBlock.BSM_State_Burning.OnEnter += SpawnFireVFX; // these two
 
         _smBlock.BSM_State_Burning.OnExit += DespawnFireVFX;
 
@@ -69,6 +69,12 @@ public class Block : MonoBehaviour
             _currentTemperature = _ignitionTemperature;
             manualIgnition = false;
         }
+    }
+
+    public void Ignite()
+    {
+        _smBlock.TryChangeState(_smBlock.BSM_State_Burning);
+        _currentTemperature = _ignitionTemperature;
     }
 
     void OnTriggerEnter(Collider other) 
