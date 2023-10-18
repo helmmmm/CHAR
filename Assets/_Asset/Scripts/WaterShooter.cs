@@ -12,6 +12,7 @@ public class WaterShooter : MonoBehaviour
 
     private float _timeSinceLastShot = 0f;
     private float _fireRate = 0.02f;
+    public float _firePower = 80f;
 
     private float _capacity = 100f;
     private float _currentWaterLevel;
@@ -58,45 +59,19 @@ public class WaterShooter : MonoBehaviour
                 _currentWaterLevel += 10f * Time.deltaTime;
             }
         }
-        Debug.Log(_currentWaterLevel);
     }
 
     private void ShootWater()
     {
-        // Calculate the position for the bottom-right corner of the screen in screen coordinates
-        Vector3 bottomRightScreen = new Vector3(Screen.width, 10, 2); // Z value represents distance from the camera, you may adjust this value
-        
-        // Convert screen to world coordinates
-        Vector3 bottomRightWorld = _mainCamera.ScreenToWorldPoint(bottomRightScreen);
+        GameObject water = Instantiate(_waterPrefab);
+        water.transform.position = _shootingPoint.transform.position;
 
-        _shootingPoint.transform.position = bottomRightWorld;
+        Quaternion shootAngleY = Quaternion.AngleAxis(-10, transform.up);
+        Quaternion shootAngleX = Quaternion.AngleAxis(-15, transform.right);
+        Vector3 shootDirection = shootAngleX * shootAngleY * transform.forward;
 
-        // Instantiate water particles at that position
-        GameObject water = Instantiate(_waterPrefab, _shootingPoint.transform.position, Quaternion.identity);
-        // GameObject water = _waterPool.Get();
-        // waterScript._waterShooter = this;
-        // GameObject water = Lean.Pool.LeanPool.Spawn(_waterPrefab, _shootingPoint.transform.position, Quaternion.identity);
-        // GameObject water = MyPooler.ObjectPooler.Instance.GetFromPool("Water", _shootingPoint.transform.position, Quaternion.identity);
-        
-
-        // Calculate the direction to shoot in towards the screen center
-        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 1.4f, 5); // Z value represents distance from the camera
-        Vector3 centerWorld = _mainCamera.ScreenToWorldPoint(screenCenter + new Vector3(0f, 3f, 0f));
-        Vector3 shootDirection = (centerWorld - bottomRightWorld).normalized;
-
-        float lerpValue = 0.3f; // You can adjust this value to make the angle more or less steep
-        Vector3 angledShootDirection = Vector3.Lerp(shootDirection, Vector3.up, lerpValue).normalized;
-
-
-        // Apply the velocity and force
         Rigidbody rb = water.GetComponent<Rigidbody>();
-        float force = 300.0f;
-        rb.velocity = angledShootDirection * 0.3f; // Adjust speed as necessary
-        rb.AddForce(angledShootDirection * force);
+        rb.AddForce(shootDirection * _firePower);
     }
 
-    // public void ReleaseWaterToPool(GameObject water)
-    // {
-    //     _waterPool.Release(water);
-    // }
 }
