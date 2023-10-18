@@ -4,49 +4,61 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
+    public static LevelGenerator Instance;
     public List<GameObject> _burnablePrefabs = new List<GameObject>();
     // private List<Vector3> _usedPositions = new List<Vector3>();
-    public int _burnableCount = 10; // Use density?
+    private int _burnableCount = 10; // Use density?
     private SM_Game _smGame => SM_Game.Instance;
     private Renderer _levelBaseRenderer;
     private Vector3 _levelBaseMin;
     private Vector3 _levelBaseMax;
     private bool _generationInProgress = false;
+    public List<GameObject> _generatedBurnables = new List<GameObject>();
 
 
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
-        // _smGame.Initialize();
-        // _smGame.GSM_State_CursorPlaced.OnEnter += GenerateLevel;
-        GenerateLevel();
         _levelBaseRenderer = GetComponent<Renderer>();
         _levelBaseMin = _levelBaseRenderer.bounds.min;
         _levelBaseMax = _levelBaseRenderer.bounds.max;
+        GenerateLevel();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // if (Input.GetMouseButtonDown(0))
-        // {
-        //     if (!_generationInProgress)
-        //     {
-        //         GenerateLevel();
-        //     }
-        // }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            if (!_generationInProgress)
+            {
+                GenerateLevel();
+            }
+        }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
             foreach (Transform child in transform)
             {
                 Destroy(child.gameObject);
+                _generatedBurnables.Clear();
                 // _usedPositions.Clear();
             }
         }
     }
 
-    private void GenerateLevel()
+    public void GenerateLevel()
     {
         StartCoroutine(co_GenerateLevel());
     }
@@ -57,11 +69,12 @@ public class LevelGenerator : MonoBehaviour
         // Generating level UI message
         _generationInProgress = true;
         List<Bounds> createdBoundsList = new List<Bounds>();
-        int positionSearchCount = 0;
-        int positionSearchMax = 100;
 
         for (int i = 0; i < _burnableCount; i++)
         {
+            int positionSearchCount = 0;
+            int positionSearchMax = 100;
+
             Vector3 randomSpawnPoint = GetRandomSpawnPoint();
             GameObject randomPrefab = GetRandomPrefab();
 
@@ -85,20 +98,22 @@ public class LevelGenerator : MonoBehaviour
                     yield return null;
                 }
             }
-            // Debug.Log("Spawned at: " + randomSpawnPoint + " with prefab: " + randomPrefab.name + " at index: " + i + " of " + _burnableCount + "\n");
-            spawnedObj.transform.parent = transform;
-            ShowMesh(spawnedObj.transform, true);
-            createdBoundsList.Add(spawnedObj.GetComponent<Collider>().bounds);
-            yield return new WaitForSeconds(0.25f);
+            if (spawnedObj != null)
+            {
+                _generatedBurnables.Add(spawnedObj);
+                spawnedObj.transform.parent = transform;
+                createdBoundsList.Add(spawnedObj.GetComponent<Collider>().bounds);
+            }
         }
-        _generationInProgress = false;
-
-        _smGame.TryChangeState(_smGame.GSM_State_LevelGenerated);
         
-        // levelgeneracted state
-        // Start game button onenter levelgenerated
-        // pressing will exit the state and enter firefighting state
-        // Countdown
+        transform.localScale *= LevelConfig.Instance.levelScale;
+        foreach (GameObject burnable in _generatedBurnables)
+        {
+            ShowMesh(burnable.transform, true);
+        }
+
+        _generationInProgress = false;
+        _smGame.TryChangeState(_smGame.GSM_State_LevelGenerated);
     }
 
     private GameObject GetRandomPrefab()
@@ -123,10 +138,14 @@ public class LevelGenerator : MonoBehaviour
     {
         foreach (Bounds bound in createdBoundsList)
         {
+            // Debug.Log($"B1 min X: {bound.min.x} max X: {bound.max.x} min Z: {bound.min.z} max Z: {bound.max.z}\n");
+            // Debug.Log($"B2 min X: {newBounds.min.x} max X: {newBounds.max.x} min Z: {newBounds.min.z} max Z: {newBounds.max.z}\n");
+
             if (!IsBoundsApart(bound, newBounds))
             {
                 return false;
             }
+            // Debug.Log("+++++++++++++++++++ Bounds apart true +++++++++++++++++++\n");
         }
         return true;
     }
@@ -138,15 +157,6 @@ public class LevelGenerator : MonoBehaviour
         return false;
     }
 
-    // private void ShowMesh(GameObject obj, bool show = true)
-    // {
-    //     MeshRenderer[] meshRenderers = obj.GetComponentsInChildren<MeshRenderer>();
-    //     foreach (MeshRenderer meshRenderer in meshRenderers)
-    //     {
-    //         meshRenderer.enabled = show;
-    //     }
-    // }
-
     private void ShowMesh(Transform parent, bool show)
     {
         foreach (Transform child in parent)
@@ -155,6 +165,57 @@ public class LevelGenerator : MonoBehaviour
 
             ShowMesh(child, show);
         }
+    }
+
+    private List<GameObject> GetRandomBurnablesFromList()
+    {
+        List<GameObject> randomBurnables = new List<GameObject>();
+        List<GameObject> temp = new List<GameObject>(_generatedBurnables);
+        for (int i = 0; i < LevelConfig.Instance._startingFireCount; i++)
+        {
+            if (temp.Count == 0)
+                break;
+
+            int randomIndex = Random.Range(0, temp.Count);
+            randomBurnables.Add(temp[randomIndex]);
+            temp.RemoveAt(randomIndex);
+        }
+
+        return randomBurnables;
+    }
+
+    private List<GameObject> GetRandomBlocksOnBurnable()
+    {
+        List<GameObject> randomBlocks = new List<GameObject>();
+
+        foreach (GameObject burnable in GetRandomBurnablesFromList())
+        {
+            int randomBlockIndex = Random.Range(0, burnable.transform.childCount);
+            randomBlocks.Add(burnable.transform.GetChild(randomBlockIndex).gameObject);
+        }
+
+        return randomBlocks;
+    }
+
+    public void IgniteRandoms()
+    {
+        foreach (GameObject block in GetRandomBlocksOnBurnable())
+        {
+            block.GetComponent<Block>().Ignite();
+        }
+    }
+
+    // private void OnDisable() 
+    // {
+    //     _smGame.GSM_State_CursorPlaced.OnEnter -= () => GenerateLevel();    
+    // }
+
+    private void OnDestroy() 
+    {
+        if (Instance == this)
+            Instance = null;
+
+        StopCoroutine(co_GenerateLevel());
     }
 }
 

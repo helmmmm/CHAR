@@ -72,7 +72,7 @@ public class SceneManager : MonoBehaviour
     {
         //Let's spawn a new ball to bounce around our space
         GameObject newBall = Instantiate(_ballPrefab);  //Spawn a new ball from our Ball Prefab
-        newBall.transform.rotation = Quaternion.Euler(new Vector3(0.0f, 0.0f, 0.0f));   //Set the rotation of our new Ball
+        newBall.transform.rotation = Quaternion.Euler(new Vector3(0.0f, 10.0f, 0.0f));   //Set the rotation of our new Ball
         newBall.transform.position = _mainCamera.transform.position + _mainCamera.transform.forward;    //Set the position of our new Ball to just in front of our Main Camera
 
         //Add velocity to our Ball, here we're telling the game to put Force behind the Ball in the direction Forward from our Camera (so, straight ahead)

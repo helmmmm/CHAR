@@ -44,6 +44,7 @@ using UnityEngine;
     {
       ARSessionFactory.SessionInitialized += OnAnyARSessionDidInitialize;
       _cursorRenderer = GetComponent<ARCursorRenderer>();
+      SM_Scene.Instance.SSM_State_GameScene.OnExit += ResetLevelPlaced;
     }
 
     private void OnAnyARSessionDidInitialize(AnyARSessionInitializedArgs args)
@@ -95,6 +96,11 @@ using UnityEngine;
       }
     }
 
+    public void ResetLevelPlaced()
+    {
+      _levelPlaced = false;
+    }
+
     private void TouchBegan(Touch touch)
     {
       var currentFrame = _session.CurrentFrame;
@@ -127,24 +133,15 @@ using UnityEngine;
       Vector3 cursorPosition = _cursorRenderer.CursorPosition;
       Quaternion cursorRotation = _cursorRenderer.CursorRotation;
 
+      // if (_placedObjects == null)
       _placedObjects.Add(Instantiate(PlacementObjectPf, cursorPosition, cursorRotation));
 
-      if (_placedObjects.Count > 0)
-      {
-        _levelPlaced = true;
-        SM_Game.Instance.TryChangeState(SM_Game.Instance.GSM_State_CursorPlaced);
-        _cursorRenderer.SetCursorVisibility(false); // Hide the cursor
-      }
+      _levelPlaced = true;
+      _cursorRenderer.SetCursorVisibility(false);
+      SM_Game.Instance.TryChangeState(SM_Game.Instance.GSM_State_CursorPlaced);
+      // Destroy(_cursorRenderer); // Hide the cursor
       
       var anchor = result.Anchor;
-      Debug.LogFormat
-      (
-        "Spawning cube at {0} (anchor: {1})",
-        cursorPosition.ToString("F4"),
-        anchor == null
-          ? "none"
-          : anchor.AnchorType + " " + anchor.Identifier
-      );
     }
   }
 // }

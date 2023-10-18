@@ -17,12 +17,18 @@ public class ARManager : MonoBehaviour
     void Start()
     {
         ARSessionFactory.SessionInitialized += OnSessionInitialized;
+        // SM_Game.Instance.GSM_State_CursorPlaced.OnEnter += DestroyAllCursors;
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    private void DestroyAllCursors()
+    {
+        Destroy(GameObject.Find("Level Cursor(Clone)"));
     }
 
     private void OnSessionInitialized(AnyARSessionInitializedArgs args)

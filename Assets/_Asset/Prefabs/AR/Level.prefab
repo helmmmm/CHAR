@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5091417008130581753}
   m_LocalRotation: {x: 1, y: -0, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.0010000007, z: 0.5}
+  m_LocalScale: {x: 2.5, y: 0.0010000007, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -114,4 +114,4 @@ MonoBehaviour:
   _burnablePrefabs:
   - {fileID: 6556100086648864403, guid: d0a05aa53661041998409c0ee0f67107, type: 3}
   - {fileID: 4195483575267241600, guid: f7b66756da15746d380c505ad0b6d800, type: 3}
-  _burnableCount: 12
+  _generatedBurnables: []

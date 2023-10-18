@@ -10,6 +10,8 @@ public class SceneController : MonoBehaviour
     public static SceneController Instance;
     SM_Scene _smScene => SM_Scene.Instance;
     SM_Game _smGame => SM_Game.Instance;
+    public GameObject _homeCanvas;
+    public GameObject _gameCanvas;
 
 
     private void Awake() 
@@ -25,39 +27,60 @@ public class SceneController : MonoBehaviour
         }
     }
 
-    // private void OnEnable()
-    // {
-    //     UnitySceneManager.sceneLoaded += OnSceneLoaded;
-    // }
-
-    private void Start()
+    private void Start() 
     {
         _smScene.Initialize();
 
-        // _smScene.SSM_State_GameScene.OnEnter += OnGameSceneLoad;
-        // _smScene.SSM_State_HomeScene.OnExit += ;
+        // if (_smScene.IsHomeSceneState)
+        //     _homeCanvas = HomeSceneUIManager.Instance.gameObject;
+        
+        // if (_smScene.IsGameSceneState)
+        //     _gameCanvas = GameSceneUIManager.Instance.gameObject;
+
+        // _smScene.SSM_State_HomeScene.OnEnter += SetHomeCanvas;
+        // _smScene.SSM_State_GameScene.OnEnter += SetGameCanvas;
+        // _smScene.SSM_State_HomeScene.OnExit += DeactivateHomeSceneUI;
+        // _smScene.SSM_State_GameScene.OnEnter += ActivateGameSceneUI;
+        // _smScene.SSM_State_GameScene.OnExit += DeactivateGameSceneUI;
     }
 
-    public void OnStartButtonClick()
-    {
-        UnitySceneManager.LoadScene("Game");
-        _smScene.TryChangeState(_smScene.SSM_State_GameScene);
-        // _smScene
-    }
-
-    public void OnRestartButtonClick()
-    {
-        // Regenerate level
-    }
-
-    public void OnHomeButtonClick()
-    {
-        UnitySceneManager.LoadScene("Home");
-        _smScene.TryChangeState(_smScene.SSM_State_HomeScene);
-    }
-
-    // private void OnSceneloaded()
+    // public void SetHomeCanvas()
     // {
-
+    //     _homeCanvas = HomeSceneUIManager.Instance.gameObject;
     // }
+
+    // public void SetGameCanvas()
+    // {
+    //     _gameCanvas = GameSceneUIManager.Instance.gameObject;
+    // }
+
+    public void ActivateHomeSceneUI()
+    {
+        _homeCanvas.SetActive(true);
+    }
+
+    public void DeactivateHomeSceneUI()
+    {
+        _homeCanvas.SetActive(false);
+    }
+
+    public void ActivateGameSceneUI()
+    {
+        _gameCanvas.SetActive(true);
+    }
+
+    public void DeactivateGameSceneUI()
+    {
+        _gameCanvas.SetActive(false);
+    }
+
+    private void OnDestroy() 
+    {
+        // _smScene.SSM_State_HomeScene.OnEnter -= ActivateHomeSceneUI;
+        // _smScene.SSM_State_HomeScene.OnExit -= DeactivateHomeSceneUI;
+        // _smScene.SSM_State_GameScene.OnEnter -= ActivateGameSceneUI;
+        // _smScene.SSM_State_GameScene.OnExit -= DeactivateGameSceneUI;
+        // _smScene.SSM_State_HomeScene.OnEnter -= () => _homeCanvas = HomeSceneUIManager.Instance.gameObject;
+        // _smScene.SSM_State_GameScene.OnEnter -= () => _gameCanvas = GameSceneUIManager.Instance.gameObject;
+    }
 }

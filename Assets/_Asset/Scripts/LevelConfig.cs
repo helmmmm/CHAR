@@ -6,6 +6,7 @@ public class LevelConfig : MonoBehaviour
 {
     public static LevelConfig Instance;
     public float levelScale;
+    public float _startingFireCount;
 
     void Awake() 
     {
@@ -23,6 +24,8 @@ public class LevelConfig : MonoBehaviour
     void Start()
     {
         levelScale = 0.2f;
+        _startingFireCount = 5;
+        // levelScale = 1f;
     }
 
     // Update is called once per frame
