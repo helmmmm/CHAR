@@ -37,6 +37,10 @@ public class WaterShooter : MonoBehaviour
         {
             Debug.LogError("Shooting point is not set!");
         }
+
+        Debug.Log(_mainCamera.transform.position);
+        Debug.Log(new Vector3(Screen.width, 0, 10));
+        Debug.Log(_mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, 0, 10)));
     }
 
     void Update()

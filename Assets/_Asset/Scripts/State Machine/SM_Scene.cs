@@ -25,6 +25,5 @@ public class SM_Scene : StateMachine
     {
         // set the initial state
         SetInitialState(SSM_State_HomeScene);
-        
     }
 }

@@ -33,6 +33,7 @@ using UnityEngine;
     private void Start()
     {
       ARSessionFactory.SessionInitialized += _SessionInitialized;
+      // SM_Game.Instance.GSM_State_CursorPlaced.OnEnter += ;
     }
 
     private void OnDestroy()
@@ -77,7 +78,7 @@ using UnityEngine;
       }
     }
 
-    private void DestroySpawnedCursor()
+    public void DestroySpawnedCursor()
     {
       if (_spawnedCursorObject == null)
         return;
