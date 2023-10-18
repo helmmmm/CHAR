@@ -10,11 +10,5 @@ public class AssetScalar : MonoBehaviour
         Vector3 newScale = transform.localScale;
         newScale *= LevelConfig.Instance.levelScale;
         transform.localScale = newScale;
-
-
-        // if (gameObject.tag == "Water Unit")
-        // {
-        //     transform.localScale *= GameManager.Instance.levelScale;
-        // }
     }
 }

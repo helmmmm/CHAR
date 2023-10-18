@@ -12,7 +12,7 @@ public class WaterShooter : MonoBehaviour
 
     private float _timeSinceLastShot = 0f;
     private float _fireRate = 0.02f;
-    public float _firePower = 300f;
+    public float _firePower = 80f;
 
     private float _capacity = 100f;
     private float _currentWaterLevel;
@@ -63,81 +63,19 @@ public class WaterShooter : MonoBehaviour
                 _currentWaterLevel += 10f * Time.deltaTime;
             }
         }
-        // Debug.Log(_currentWaterLevel);
-        // UpdateShootingPoint();
     }
 
     private void ShootWater()
     {
-        Vector3 bottomRightScreen = new Vector3(Screen.width, 0, 10); // Z value represents distance from the camera, you may adjust this value
-        Vector3 bottomRightWorld = _mainCamera.ScreenToWorldPoint(bottomRightScreen);
-
         GameObject water = Instantiate(_waterPrefab);
-        water.transform.localScale *= LevelConfig.Instance.levelScale;
-        water.transform.rotation = Quaternion.Euler(new Vector3(10.0f, 0.0f, 0.0f));
-        // water.transform.position = _mainCamera.transform.position + bottomRightWorld + _mainCamera.transform.forward;
-        water.transform.position = bottomRightScreen;
+        water.transform.position = _shootingPoint.transform.position;
+
+        Quaternion shootAngleY = Quaternion.AngleAxis(-10, transform.up);
+        Quaternion shootAngleX = Quaternion.AngleAxis(-15, transform.right);
+        Vector3 shootDirection = shootAngleX * shootAngleY * transform.forward;
 
         Rigidbody rb = water.GetComponent<Rigidbody>();
-        float force = _firePower;
-        rb.AddForce(_mainCamera.transform.forward * force);
+        rb.AddForce(shootDirection * _firePower);
     }
 
-    // private Vector3 GetShootingPoint()
-    // {
-
-    // }
-
-    // private Vector3 GetShootingDirection()
-    // {
-        
-    // }
-
-
-
-    // private void UpdateShootingPoint()
-    // {
-    //     // Calculate the position for the bottom-right corner of the screen in screen coordinates
-    //     Vector3 bottomRightScreen = new Vector3(Screen.width, 10, 2); // Z value represents distance from the camera, you may adjust this value
-        
-    //     // Convert screen to world coordinates
-    //     Vector3 bottomRightWorld = _mainCamera.ScreenToWorldPoint(bottomRightScreen);
-
-    //     _shootingPoint.transform.position = bottomRightWorld;
-    // }
-
-    // private void ShootWater()
-    // {
-    //     // Calculate the position for the bottom-right corner of the screen in screen coordinates
-    //     Vector3 bottomRightScreen = new Vector3(Screen.width, 10, 2); // Z value represents distance from the camera, you may adjust this value
-        
-    //     // Convert screen to world coordinates
-    //     Vector3 bottomRightWorld = _mainCamera.ScreenToWorldPoint(bottomRightScreen);
-
-    //     _shootingPoint.transform.position = bottomRightWorld;
-
-    //     // Instantiate water particles at that position
-    //     GameObject water = Instantiate(_waterPrefab, _shootingPoint.transform.position, Quaternion.identity);
-        
-
-    //     // Calculate the direction to shoot in towards the screen center
-    //     Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 1.4f, 5); // Z value represents distance from the camera
-    //     Vector3 centerWorld = _mainCamera.ScreenToWorldPoint(screenCenter + new Vector3(0f, 3f, 0f));
-    //     Vector3 shootDirection = (centerWorld - bottomRightWorld).normalized;
-
-    //     float lerpValue = 0.3f; // You can adjust this value to make the angle more or less steep
-    //     Vector3 angledShootDirection = Vector3.Lerp(shootDirection, Vector3.up, lerpValue).normalized;
-
-
-    //     // Apply the velocity and force
-    //     Rigidbody rb = water.GetComponent<Rigidbody>();
-    //     float force = _firePower;
-    //     rb.AddForce(angledShootDirection * force);
-    // }
-
-
-    // public void ReleaseWaterToPool(GameObject water)
-    // {
-    //     _waterPool.Release(water);
-    // }
 }
