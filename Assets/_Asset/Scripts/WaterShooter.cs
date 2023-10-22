@@ -8,19 +8,23 @@ public class WaterShooter : MonoBehaviour
     // private ObjectPool<GameObject> _waterPool;
     public GameObject _shootingPoint; // Reference to the child object
     private GameObject _waterPrefab;
+    private GameObject _waterVFX;
     private Camera _mainCamera;
 
-    private float _timeSinceLastShot = 0f;
-    private float _fireRate = 0.02f;
-    public float _firePower = 80f;
+    private float _timeSinceLastShotCollider = 0f;
+    private float _timeSinceLastShotVFX = 0f;
+    private float _ColliderFireRate = 0.04f;
+    private float _waterVFXFireRate = 0.0075f;
+    public float _firePower = 100f;
 
-    private float _capacity = 100f;
+    private float _capacity = 50f;
     private float _currentWaterLevel;
 
     void Start()
     {
         _mainCamera = Camera.main;
-        _waterPrefab = Resources.Load<GameObject>("Prefabs/Water Unit");
+        _waterPrefab = Resources.Load<GameObject>("Prefabs/Water Collider");
+        _waterVFX = Resources.Load<GameObject>("Prefabs/Water VFX");
         _currentWaterLevel = _capacity;
 
         // _waterPool = new ObjectPool<GameObject>(() => 
@@ -37,45 +41,81 @@ public class WaterShooter : MonoBehaviour
         {
             Debug.LogError("Shooting point is not set!");
         }
-
-        Debug.Log(_mainCamera.transform.position);
-        Debug.Log(new Vector3(Screen.width, 0, 10));
-        Debug.Log(_mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, 0, 10)));
     }
 
     void Update()
     {
         if (Input.GetMouseButton(0))
         {
-            _timeSinceLastShot += Time.deltaTime;
+            _timeSinceLastShotVFX += Time.deltaTime;
+            _timeSinceLastShotCollider += Time.deltaTime;
 
-            if (_timeSinceLastShot >= _fireRate && _currentWaterLevel > 0f)
+            if (_currentWaterLevel > 0f)
             {
-                ShootWater();
-                _currentWaterLevel -= 1f;
-                _timeSinceLastShot = 0f;
+                if (_timeSinceLastShotCollider >= _ColliderFireRate)
+                {
+                    // ShootWaterCollider();
+                    Shoot(_waterPrefab);
+                    _timeSinceLastShotCollider = 0f;
+                }
+
+                if (_timeSinceLastShotVFX >= _waterVFXFireRate)
+                {
+                    // ShootWaterVFX();
+                    Shoot(_waterVFX);
+                    _timeSinceLastShotVFX = 0f;
+                }
+
+                _currentWaterLevel -= 10f * Time.deltaTime;
             }
         }
         else
         {
             if (_currentWaterLevel < _capacity)
             {
-                _currentWaterLevel += 10f * Time.deltaTime;
+                _currentWaterLevel += 5f * Time.deltaTime;
             }
         }
+        Debug.Log($"Current water level: {_currentWaterLevel}\n");
     }
 
-    private void ShootWater()
+    private void Shoot(GameObject prefab)
     {
-        GameObject water = Instantiate(_waterPrefab);
-        water.transform.position = _shootingPoint.transform.position;
+        GameObject projectile = Instantiate(prefab);
+        projectile.transform.position = _shootingPoint.transform.position;
 
         Quaternion shootAngleY = Quaternion.AngleAxis(-10, transform.up);
         Quaternion shootAngleX = Quaternion.AngleAxis(-15, transform.right);
         Vector3 shootDirection = shootAngleX * shootAngleY * transform.forward;
 
-        Rigidbody rb = water.GetComponent<Rigidbody>();
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
         rb.AddForce(shootDirection * _firePower);
     }
+
+    // private void ShootWaterCollider() // make into one method
+    // {
+    //     GameObject water = Instantiate(_waterPrefab);
+    //     water.transform.position = _shootingPoint.transform.position;
+
+    //     Quaternion shootAngleY = Quaternion.AngleAxis(-10, transform.up);
+    //     Quaternion shootAngleX = Quaternion.AngleAxis(-15, transform.right);
+    //     Vector3 shootDirection = shootAngleX * shootAngleY * transform.forward;
+
+    //     Rigidbody rb = water.GetComponent<Rigidbody>();
+    //     rb.AddForce(shootDirection * _firePower);
+    // }
+
+    // private void ShootWaterVFX()
+    // {
+    //     GameObject waterVFX = Instantiate(_waterVFX);
+    //     waterVFX.transform.position = _shootingPoint.transform.position;
+
+    //     Quaternion shootAngleY = Quaternion.AngleAxis(-10, transform.up);
+    //     Quaternion shootAngleX = Quaternion.AngleAxis(-15, transform.right);
+    //     Vector3 shootDirection = shootAngleX * shootAngleY * transform.forward;
+
+    //     Rigidbody rb = waterVFX.GetComponent<Rigidbody>();
+    //     rb.AddForce(shootDirection * _firePower);
+    // }
 
 }

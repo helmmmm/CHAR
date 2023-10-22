@@ -89,9 +89,12 @@ public class Block : MonoBehaviour
         {
             Debug.Log($"Hit with {other.gameObject.name}");
             TryCoolDown(_coolingRate);
-            // Destroy(other.gameObject);
-            // other.gameObject.transform.Find("Collision Splash").GetComponent<ParticleSystem>().Play();
-            // other.transform.Find("Collision Splash").GetComponent<ParticleSystem>().Play();
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.tag == "Water VFX")
+        {
+            Destroy(other.gameObject);
         }
     }
 
