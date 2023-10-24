@@ -12,6 +12,8 @@ TagManager:
   - Water
   - Water Splash
   - Burnable
+  - Water Unit
+  - Water VFX
   layers:
   - Default
   - TransparentFX
