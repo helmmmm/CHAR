@@ -14,10 +14,10 @@ public class WaterShooter : MonoBehaviour
     private float _timeSinceLastShotCollider = 0f;
     private float _timeSinceLastShotVFX = 0f;
     private float _ColliderFireRate = 0.04f;
-    private float _waterVFXFireRate = 0.02f;
+    private float _waterVFXFireRate = 0.03f;
     public float _firePower = 100f;
 
-    private float _capacity = 50f;
+    private float _capacity = 5000f;
     private float _currentWaterLevel;
 
     void Start()
@@ -46,6 +46,7 @@ public class WaterShooter : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButton(0))
+        // if (Input.GetKey(KeyCode.Space))
         {
             _timeSinceLastShotVFX += Time.deltaTime;
             _timeSinceLastShotCollider += Time.deltaTime;
@@ -83,9 +84,10 @@ public class WaterShooter : MonoBehaviour
     {
         GameObject projectile = Instantiate(prefab);
         projectile.transform.position = _shootingPoint.transform.position;
+        projectile.transform.rotation = _shootingPoint.transform.rotation;
 
-        Quaternion shootAngleY = Quaternion.AngleAxis(-10, transform.up);
-        Quaternion shootAngleX = Quaternion.AngleAxis(-15, transform.right);
+        Quaternion shootAngleY = Quaternion.AngleAxis(-5, transform.up);
+        Quaternion shootAngleX = Quaternion.AngleAxis(-28, transform.right);
         Vector3 shootDirection = shootAngleX * shootAngleY * transform.forward;
 
         Rigidbody rb = projectile.GetComponent<Rigidbody>();

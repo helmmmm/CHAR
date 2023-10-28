@@ -13,5 +13,20 @@ public class Water : MonoBehaviour
 
         if (_timeLived >= _maxTime)
             Destroy(gameObject);
+
+        UpdateOrientation();
+    }
+
+    private void UpdateOrientation()
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            Vector3 velocity = rb.velocity;
+            if (velocity != Vector3.zero)
+            {
+                transform.rotation = Quaternion.LookRotation(velocity);
+            }
+        }
     }
 }

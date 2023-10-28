@@ -7,10 +7,13 @@ public class WaterSplash : MonoBehaviour
     private float _timeLived = 0f;
     private float _maxTime = 3f;
     private GameObject _collisionSplash;
+    private Camera _mainCamera; 
+    // private bool _splashInstantiated = false;
 
     private void Start()
     {
         _collisionSplash = Resources.Load<GameObject>("Prefabs/Water Splash");
+        _mainCamera = Camera.main;
     }
 
     private void OnTriggerEnter(Collider other) 
@@ -18,7 +21,10 @@ public class WaterSplash : MonoBehaviour
         if (other.CompareTag("Burnable Block"))
         {
             // other.GetComponent<Block>().TryCoolDown(10f);
-            GameObject newSplash = Instantiate(_collisionSplash, transform.position, Quaternion.identity);
+            GameObject newSplash = Instantiate(_collisionSplash, other.transform.position, Quaternion.identity);
+
+            newSplash.transform.LookAt(_mainCamera.transform);
+            
             ParticleSystem ps = newSplash.GetComponent<ParticleSystem>();
             if (ps != null)
             {
@@ -27,6 +33,7 @@ public class WaterSplash : MonoBehaviour
             // _waterShooter.ReleaseWaterToPool(gameObject);
             // Lean.Pool.LeanPool.Despawn(gameObject);
             // MyPooler.ObjectPooler.Instance.ReturnToPool("Water", gameObject);
+            gameObject.SetActive(false);
             Destroy(gameObject);
         }    
     }

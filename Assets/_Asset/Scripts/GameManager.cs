@@ -21,17 +21,8 @@ public class GameManager : MonoBehaviour
         Instance = this;
         _smScene.Initialize();
         _smGame.Initialize();
-
-        // _smScene.SSM_State_GameScene.OnEnter += GetLevelGenerator;
-        // _smGame.GSM_State_CursorPlaced.OnEnter += ActivateLevelGeneration;
-        // _smGame.GSM_State_LevelGenerated.OnEnter += FillBurnableList;
         
     }
-
-    // private void GetLevelGenerator()
-    // {
-    //     _levelGenerator = GameObject.Find("Level(Clone)").GetComponent<LevelGenerator>();
-    // }
 
     public void StartLevel()
     {
