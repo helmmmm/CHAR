@@ -11,6 +11,6 @@ public class DryWood : Block
         _ignitionTemperature = Random.Range(160f, 400f);
         _heatTransferRate = 40f;
         _burnHP = Random.Range(480f, 840f);
-        _burnDMG = 40f;
+        _burnDMG = 0f;
     }
 }
