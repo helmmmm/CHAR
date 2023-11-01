@@ -166,6 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shootingPoint: {fileID: 1068900336524962431}
   _firePower: 10
+  _waterTankUI: {fileID: 0}
 --- !u!114 &1068900336926216202
 MonoBehaviour:
   m_ObjectHideFlags: 0

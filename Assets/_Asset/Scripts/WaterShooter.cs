@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Pool;
 
 public class WaterShooter : MonoBehaviour
@@ -17,7 +18,8 @@ public class WaterShooter : MonoBehaviour
     private float _waterVFXFireRate = 0.03f;
     public float _firePower = 100f;
 
-    private float _capacity = 5000f;
+    private GameObject _waterGauge;
+    private float _capacity = 40f;
     private float _currentWaterLevel;
 
     void Start()
@@ -26,6 +28,8 @@ public class WaterShooter : MonoBehaviour
         _waterPrefab = Resources.Load<GameObject>("Prefabs/Water Collider");
         _waterVFX = Resources.Load<GameObject>("Prefabs/Water VFX");
         _currentWaterLevel = _capacity;
+        _waterGauge = GameSceneUIManager.Instance._waterGauge;
+        _waterGauge.GetComponent<Slider>().maxValue = _capacity;
 
         // _waterPool = new ObjectPool<GameObject>(() => 
         //     Instantiate(_waterPrefab), 
@@ -45,7 +49,7 @@ public class WaterShooter : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && GameManager.Instance.IsFireFighting())
         // if (Input.GetKey(KeyCode.Space))
         {
             _timeSinceLastShotVFX += Time.deltaTime;
@@ -77,7 +81,8 @@ public class WaterShooter : MonoBehaviour
                 _currentWaterLevel += 5f * Time.deltaTime;
             }
         }
-        Debug.Log($"Current water level: {_currentWaterLevel}\n");
+        _waterGauge.GetComponent<Slider>().value = _currentWaterLevel;
+        // Debug.Log($"Current water level: {_currentWaterLevel}\n");
     }
 
     private void Shoot(GameObject prefab)
