@@ -31,28 +31,32 @@ public class SceneController : MonoBehaviour
     {
         _smScene.Initialize();
 
-        // if (_smScene.IsHomeSceneState)
-        //     _homeCanvas = HomeSceneUIManager.Instance.gameObject;
-        
-        // if (_smScene.IsGameSceneState)
-        //     _gameCanvas = GameSceneUIManager.Instance.gameObject;
+        _homeCanvas = Resources.Load<GameObject>("Prefabs/Canvas/Home Canvas");
+        _gameCanvas = Resources.Load<GameObject>("Prefabs/Canvas/Game Canvas");
 
-        // _smScene.SSM_State_HomeScene.OnEnter += SetHomeCanvas;
-        // _smScene.SSM_State_GameScene.OnEnter += SetGameCanvas;
-        // _smScene.SSM_State_HomeScene.OnExit += DeactivateHomeSceneUI;
-        // _smScene.SSM_State_GameScene.OnEnter += ActivateGameSceneUI;
-        // _smScene.SSM_State_GameScene.OnExit += DeactivateGameSceneUI;
+        _smScene.SSM_State_HomeScene.OnEnter += SetTimeScale;
+        _smScene.SSM_State_GameScene.OnEnter += SetTimeScale;
     }
 
-    // public void SetHomeCanvas()
-    // {
-    //     _homeCanvas = HomeSceneUIManager.Instance.gameObject;
-    // }
+    private void SetTimeScale()
+    {
+        if (Time.timeScale != 1f)
+        {
+            Time.timeScale = 1f;
+        }
+    }
 
-    // public void SetGameCanvas()
-    // {
-    //     _gameCanvas = GameSceneUIManager.Instance.gameObject;
-    // }
+    private void SetHomeCanvas()
+    {
+        Time.timeScale = 1f;
+        Instantiate(_homeCanvas);
+    }
+
+    private void SetGameCanvas()
+    {
+        Time.timeScale = 1f;
+        Instantiate(_gameCanvas);
+    }
 
     public void ActivateHomeSceneUI()
     {
@@ -76,11 +80,7 @@ public class SceneController : MonoBehaviour
 
     private void OnDestroy() 
     {
-        // _smScene.SSM_State_HomeScene.OnEnter -= ActivateHomeSceneUI;
-        // _smScene.SSM_State_HomeScene.OnExit -= DeactivateHomeSceneUI;
-        // _smScene.SSM_State_GameScene.OnEnter -= ActivateGameSceneUI;
-        // _smScene.SSM_State_GameScene.OnExit -= DeactivateGameSceneUI;
-        // _smScene.SSM_State_HomeScene.OnEnter -= () => _homeCanvas = HomeSceneUIManager.Instance.gameObject;
-        // _smScene.SSM_State_GameScene.OnEnter -= () => _gameCanvas = GameSceneUIManager.Instance.gameObject;
+        _smScene.SSM_State_HomeScene.OnEnter -= SetTimeScale;
+        _smScene.SSM_State_GameScene.OnEnter -= SetTimeScale;
     }
 }
