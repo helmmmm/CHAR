@@ -9,6 +9,7 @@ public class SM_Game : StateMachine
 
 
     // States
+    private GSM_State_CameraActivated _stateCameraActivated;
     private GSM_State_PlaneTracked _statePlaneTracked;
     private GSM_State_CursorPlaced _stateCursorPlaced;
     private GSM_State_LevelGenerated _stateLevelGenerated;
@@ -17,6 +18,7 @@ public class SM_Game : StateMachine
     private GSM_State_GameFinished _stateGameFinished;
 
     // Create the states
+    public GSM_State_CameraActivated GSM_State_CameraActivated => _stateCameraActivated ??= new GSM_State_CameraActivated(this);
     public GSM_State_PlaneTracked GSM_State_PlaneTracked => _statePlaneTracked ??= new GSM_State_PlaneTracked(this);
     public GSM_State_CursorPlaced GSM_State_CursorPlaced => _stateCursorPlaced ??= new GSM_State_CursorPlaced(this);
     public GSM_State_LevelGenerated GSM_State_LevelGenerated => _stateLevelGenerated ??= new GSM_State_LevelGenerated(this);
@@ -25,6 +27,7 @@ public class SM_Game : StateMachine
     public GSM_State_GameFinished GSM_State_GameFinished => _stateGameFinished ??= new GSM_State_GameFinished(this);
 
     
+    public bool IsCameraActivated => GetCurrentState() is GSM_State_CameraActivated;
     public bool IsPlaneTracked => GetCurrentState() is GSM_State_PlaneTracked;
     public bool IsCursorPlaced => GetCurrentState() is GSM_State_CursorPlaced;
     public bool IsLevelGenerated => GetCurrentState() is GSM_State_LevelGenerated;
@@ -35,7 +38,7 @@ public class SM_Game : StateMachine
     public void Initialize()
     {
         // set the initial state
-        SetInitialState(GSM_State_PlaneTracked);
+        SetInitialState(GSM_State_CameraActivated);
         
     }
 }

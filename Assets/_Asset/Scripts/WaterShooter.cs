@@ -31,15 +31,7 @@ public class WaterShooter : MonoBehaviour
         _waterGauge = GameSceneUIManager.Instance._waterGauge;
         _waterGauge.GetComponent<Slider>().maxValue = _capacity;
 
-        // _waterPool = new ObjectPool<GameObject>(() => 
-        //     Instantiate(_waterPrefab), 
-        //     water => water.SetActive(true), 
-        //     water => water.SetActive(false), 
-        //     null,
-        //     true, 
-        //     5,
-        //     10
-        // );
+        // Need Pooling!!
 
         if (_shootingPoint == null)
         {
@@ -97,32 +89,8 @@ public class WaterShooter : MonoBehaviour
 
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         rb.AddForce(shootDirection * _firePower);
+
+
+        ScoreManager.Instance._totalWaterCount++;
     }
-
-    // private void ShootWaterCollider() // make into one method
-    // {
-    //     GameObject water = Instantiate(_waterPrefab);
-    //     water.transform.position = _shootingPoint.transform.position;
-
-    //     Quaternion shootAngleY = Quaternion.AngleAxis(-10, transform.up);
-    //     Quaternion shootAngleX = Quaternion.AngleAxis(-15, transform.right);
-    //     Vector3 shootDirection = shootAngleX * shootAngleY * transform.forward;
-
-    //     Rigidbody rb = water.GetComponent<Rigidbody>();
-    //     rb.AddForce(shootDirection * _firePower);
-    // }
-
-    // private void ShootWaterVFX()
-    // {
-    //     GameObject waterVFX = Instantiate(_waterVFX);
-    //     waterVFX.transform.position = _shootingPoint.transform.position;
-
-    //     Quaternion shootAngleY = Quaternion.AngleAxis(-10, transform.up);
-    //     Quaternion shootAngleX = Quaternion.AngleAxis(-15, transform.right);
-    //     Vector3 shootDirection = shootAngleX * shootAngleY * transform.forward;
-
-    //     Rigidbody rb = waterVFX.GetComponent<Rigidbody>();
-    //     rb.AddForce(shootDirection * _firePower);
-    // }
-
 }

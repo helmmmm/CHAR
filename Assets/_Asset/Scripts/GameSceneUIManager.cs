@@ -13,13 +13,27 @@ public class GameSceneUIManager : MonoBehaviour
     SM_Game _smGame => SM_Game.Instance;
     private GameObject _gameCanvas;
     [SerializeField] private GameObject _startLevelButton;
+    [SerializeField] private GameObject _gameTimer;
     [SerializeField] private GameObject _countDownUI;
     [SerializeField] private GameObject _pauseButton;
     [SerializeField] private GameObject _pauseUI;
     [SerializeField] private GameObject _confirmationUI;
-    public GameObject _waterGauge;
-    [SerializeField] private TMP_Text _countDownText;
+    [SerializeField] private GameObject _scanUI;
     [SerializeField] private GameObject _directionsUI;
+    [SerializeField] private GameObject _finishScreenUI;
+
+    public GameObject _waterGauge;
+    public TMP_Text _gameTimerText;
+    public TMP_Text _countDownText;
+    public TMP_Text _burntRaw;
+    public TMP_Text _burntPenalty;
+    public TMP_Text _extinguishedRaw;
+    public TMP_Text _extinguishedBonus;
+    public TMP_Text _waterAccuracyRaw;
+    public TMP_Text _waterAccuracyBonus;
+    public TMP_Text _timeBonusFinal;
+    public TMP_Text _overallScore;
+
     // [SerializeField] private TMP_Text _directionsText;
     // Start is called before the first frame update
     
@@ -37,27 +51,56 @@ public class GameSceneUIManager : MonoBehaviour
     
     void Start()
     {
-        // _gameCanvas = Instance.gameObject;
         SceneController.Instance._gameCanvas = gameObject;
         _startLevelButton.SetActive(false);
         _countDownUI.SetActive(false);
         _waterGauge.SetActive(false);
         _confirmationUI.SetActive(false);
         _directionsUI.SetActive(false);
+        _scanUI.SetActive(false);
+        _pauseUI.SetActive(false);
+        _gameTimer.SetActive(false);
+        _finishScreenUI.SetActive(false);
+        // Group into initialize method later
 
-        _smGame.GSM_State_PlaneTracked.OnEnter += EnableDirectionsUI;
-        _smGame.GSM_State_CursorPlaced.OnEnter += DisableDirectionsUI;
+        
 
-        _smScene.SSM_State_GameScene.OnExit += () => gameObject.SetActive(false);
-        _smGame.GSM_State_Firefighting.OnEnter += EnableGamePlayUI;
         // _waterGauge.SetActive(false);
         // _pauseButton.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable() 
     {
-        
+        _smGame.GSM_State_CameraActivated.OnEnter += EnableScanUI;
+        _smGame.GSM_State_PlaneTracked.OnEnter += DisableScanUI;
+        _smGame.GSM_State_PlaneTracked.OnEnter += EnableDirectionsUI;
+        _smGame.GSM_State_CursorPlaced.OnEnter += DisableDirectionsUI;
+
+        // _smScene.SSM_State_GameScene.OnExit += () => gameObject.SetActive(false);
+        _smGame.GSM_State_Firefighting.OnEnter += EnableGamePlayUI;
+        _smGame.GSM_State_GameFinished.OnEnter += DisableGamePlayUI;
+    }
+
+    private void OnDisable() 
+    {
+        _smGame.GSM_State_CameraActivated.OnEnter -= EnableScanUI;
+        _smGame.GSM_State_PlaneTracked.OnEnter -= DisableScanUI;
+        _smGame.GSM_State_PlaneTracked.OnEnter -= EnableDirectionsUI;
+        _smGame.GSM_State_CursorPlaced.OnEnter -= DisableDirectionsUI;
+
+        // _smScene.SSM_State_GameScene.OnExit += () => gameObject.SetActive(false);
+        _smGame.GSM_State_Firefighting.OnEnter -= EnableGamePlayUI;
+        _smGame.GSM_State_GameFinished.OnEnter -= DisableGamePlayUI;    
+    }
+
+    private void EnableScanUI()
+    {
+        _scanUI.SetActive(true);
+    }
+
+    private void DisableScanUI()
+    {
+        _scanUI.SetActive(false);
     }
 
     private void EnableDirectionsUI()
@@ -88,12 +131,14 @@ public class GameSceneUIManager : MonoBehaviour
     {
         _waterGauge.SetActive(true);
         _pauseButton.SetActive(true);
+        _gameTimer.SetActive(true);
     }
 
     public void DisableGamePlayUI()
     {
-        _waterGauge.SetActive(true);
-        _pauseButton.SetActive(true);
+        _waterGauge.SetActive(false);
+        _pauseButton.SetActive(false);
+        _gameTimer.SetActive(false);
     }
 
     public void EnableCountDownUI()
@@ -140,6 +185,11 @@ public class GameSceneUIManager : MonoBehaviour
         _pauseUI.SetActive(false);
     }
 
+    public void EnableFinishScreen()
+    {
+        _finishScreenUI.SetActive(true);
+    }
+
     public void OnMainMenuButtonClick()
     {
         _confirmationUI.SetActive(true);
@@ -158,15 +208,20 @@ public class GameSceneUIManager : MonoBehaviour
         _confirmationUI.SetActive(false);
     }
 
-    public void SetCountDownText(string text)
+    public void ChangeText(TMP_Text textObj, string newText)
     {
-        _countDownText.text = text;
+        textObj.text = newText;
     }
 
     private void OnDestroy() 
     {
-        // _smScene.SSM_State_GameScene.OnEnter -= ActivateGameSceneUI;
-        // _smScene.SSM_State_GameScene.OnExit -= DeactivateGameSceneUI;
-        SM_Game.Instance.GSM_State_LevelGenerated.OnEnter -= EnableStartLevelButton;
+        // _smGame.GSM_State_CameraActivated.OnEnter -= EnableScanUI;
+        // _smGame.GSM_State_CameraActivated.OnExit -= DisableScanUI;
+        // _smGame.GSM_State_PlaneTracked.OnEnter -= EnableDirectionsUI;
+        // _smGame.GSM_State_CursorPlaced.OnEnter -= DisableDirectionsUI;
+
+        // // _smScene.SSM_State_GameScene.OnExit -= () => gameObject.SetActive(false);
+        // _smGame.GSM_State_Firefighting.OnEnter -= EnableGamePlayUI;
+        // _smGame.GSM_State_GameFinished.OnEnter -= DisableGamePlayUI;
     }
 }

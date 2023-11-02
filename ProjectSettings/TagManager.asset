@@ -14,6 +14,8 @@ TagManager:
   - Burnable
   - Water Unit
   - Water VFX
+  - Burning Block
+  - Burnt Block
   layers:
   - Default
   - TransparentFX

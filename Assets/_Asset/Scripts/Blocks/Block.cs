@@ -20,6 +20,7 @@ public class Block : MonoBehaviour
     protected float _coolingRate = 80f; // How much heat it loses per second
 
     public bool manualIgnition = false;
+    private bool _beenBurnt = false;
 
     private Collider _collider;
     private List<GameObject> _nearbyBlockList = new List<GameObject>();
@@ -46,9 +47,12 @@ public class Block : MonoBehaviour
         // _smBlock.CheckComponent();
 
         _smBlock.BSM_State_Resting.OnEnter += ToDefaultMaterial;
+        _smBlock.BSM_State_Resting.OnEnter += () => gameObject.tag = "Burnable Block";
 
         _smBlock.BSM_State_Burning.OnEnter += ToBurningMaterial; // can combine
         _smBlock.BSM_State_Burning.OnEnter += SpawnFireVFX; // these two
+        _smBlock.BSM_State_Burning.OnEnter += () => ScoreManager.Instance._ignitedBlockCount++;
+        _smBlock.BSM_State_Burning.OnEnter += () => gameObject.tag = "Burning Block";
 
         _smBlock.BSM_State_Burning.OnExit += DespawnFireVFX;
 
@@ -58,6 +62,11 @@ public class Block : MonoBehaviour
 
         StartCoroutine(co_EmitHeat());
         StartCoroutine(co_Burn());
+    }
+
+    private void OnEnable() 
+    {
+        
     }
 
     // Update is called once per frame
@@ -175,6 +184,7 @@ public class Block : MonoBehaviour
 
             if (_currentTemperature <= _ignitionTemperature)
                 _smBlock.TryChangeState(_smBlock.BSM_State_Resting);
+                ScoreManager.Instance._extinguishedBlockCount++;
         }
         else
             _currentTemperature -= coolingRate * 0.5f;
@@ -256,6 +266,8 @@ public class Block : MonoBehaviour
     void Burnt()
     {
         // Debug.Log($"[{gameObject.name}] is Burnt");
+        ScoreManager.Instance._burntBlockCount++;
+        gameObject.tag = "Burnt Block";
         OnBlockBurnt?.Invoke(gameObject); // ? to check if OnBlockBurnt is null
         _smBlock.BSM_State_Resting.OnEnter -= ToDefaultMaterial;
 

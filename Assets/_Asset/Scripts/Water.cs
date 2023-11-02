@@ -17,6 +17,14 @@ public class Water : MonoBehaviour
         UpdateOrientation();
     }
 
+    private void OnTriggerEnter(Collider other) 
+    {
+        if (other.gameObject.CompareTag("Burning Block"))
+        {
+            ScoreManager.Instance._hitWaterCount++;
+        }    
+    }
+
     private void UpdateOrientation()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
