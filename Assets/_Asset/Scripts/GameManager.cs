@@ -13,22 +13,39 @@ public class GameManager : MonoBehaviour
     private float burnTimer = 0;
     private int _startingFireCount = 5;
     private bool _isFireFighting = false;
-    private bool _isPauseClicked = false;
+    // private bool _isPauseClicked = false;
 
     // UI
     private GameObject _fightFireButton;
 
     void Start()
     {
-        Instance = this;
-        _smScene.Initialize();
         _smGame.Initialize();
-        
+        Instance = this;
+                
         _smGame.GSM_State_LevelGenerated.OnEnter += EnableStartLevelButton;
-        _smGame.GSM_State_Firefighting.OnEnter += EnableWaterShooter;
-        _smGame.GSM_State_Firefighting.OnExit += DisableWaterShooter;
+        _smGame.GSM_State_Firefighting.OnEnter += () => _isFireFighting = true;
+        _smGame.GSM_State_Firefighting.OnExit += () => _isFireFighting = false;
         _smGame.GSM_State_Paused.OnEnter += Pause;
         _smGame.GSM_State_Paused.OnExit += Resume;
+    }
+
+    private void OnEnable() 
+    {
+        _smGame.GSM_State_LevelGenerated.OnEnter += EnableStartLevelButton;
+        _smGame.GSM_State_Firefighting.OnEnter += () => _isFireFighting = true;
+        _smGame.GSM_State_Firefighting.OnExit += () => _isFireFighting = false;
+        _smGame.GSM_State_Paused.OnEnter += Pause;
+        _smGame.GSM_State_Paused.OnExit += Resume;
+    }
+
+    private void OnDisable() 
+    {
+        _smGame.GSM_State_LevelGenerated.OnEnter -= EnableStartLevelButton;
+        _smGame.GSM_State_Firefighting.OnEnter -= () => _isFireFighting = true;
+        _smGame.GSM_State_Firefighting.OnExit -= () => _isFireFighting = false;
+        _smGame.GSM_State_Paused.OnEnter -= Pause;
+        _smGame.GSM_State_Paused.OnExit -= Resume;
     }
 
     private void EnableStartLevelButton()
@@ -39,6 +56,7 @@ public class GameManager : MonoBehaviour
     public void StartLevel()
     {
         CountDownAndAction("IgniteRandom");
+        StartCoroutine(co_CountTotalBlocks());
     }
 
     private void CountDownAndAction(string method)
@@ -51,11 +69,17 @@ public class GameManager : MonoBehaviour
         GameSceneUIManager.Instance.EnableCountDownUI();
         for (int i = 3; i > 0; i--)
         {
-            GameSceneUIManager.Instance.SetCountDownText(i.ToString());
+            GameSceneUIManager.Instance.ChangeText(GameSceneUIManager.Instance._countDownText, i.ToString());
             yield return new WaitForSeconds(1);
         }
         GameSceneUIManager.Instance.DisableCountDownUI();
         Invoke(method, 0);
+    }
+
+    IEnumerator co_CountTotalBlocks()
+    {
+        ScoreManager.Instance._totalBlockCount = GameObject.FindGameObjectsWithTag("Burnable Block").Length;
+        yield return null;
     }
 
     private void IgniteRandom()
@@ -102,16 +126,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    
+        // Debug.Log(_smGame.GetCurrentState()+"\n");
     }
 
     private void OnDestroy() 
     {
         StopCoroutine("co_CountDownAndIgnite");
-        _smGame.GSM_State_LevelGenerated.OnEnter -= EnableStartLevelButton;
-        _smGame.GSM_State_Firefighting.OnEnter -= EnableWaterShooter;
-        _smGame.GSM_State_Firefighting.OnExit -= DisableWaterShooter;
-        _smGame.GSM_State_Paused.OnEnter -= Pause;
-        _smGame.GSM_State_Paused.OnExit -= Resume;
     }
 }

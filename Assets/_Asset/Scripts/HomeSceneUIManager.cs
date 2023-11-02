@@ -27,7 +27,7 @@ public class HomeSceneUIManager : MonoBehaviour
 
     void Start()
     {
-        SM_Scene.Instance.Initialize();
+        _smScene.Initialize();
         SM_Game.Instance.Initialize();
         SceneController.Instance._homeCanvas = gameObject;
         // _homeCanvas = Instance.gameObject;

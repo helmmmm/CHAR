@@ -33,9 +33,18 @@ public class SceneController : MonoBehaviour
 
         _homeCanvas = Resources.Load<GameObject>("Prefabs/Canvas/Home Canvas");
         _gameCanvas = Resources.Load<GameObject>("Prefabs/Canvas/Game Canvas");
+    }
 
+    private void OnEnable() 
+    {
         _smScene.SSM_State_HomeScene.OnEnter += SetTimeScale;
         _smScene.SSM_State_GameScene.OnEnter += SetTimeScale;
+    }
+
+    private void OnDisable() 
+    {
+        _smScene.SSM_State_HomeScene.OnEnter -= SetTimeScale;
+        _smScene.SSM_State_GameScene.OnEnter -= SetTimeScale;
     }
 
     private void SetTimeScale()
@@ -76,11 +85,5 @@ public class SceneController : MonoBehaviour
     public void DeactivateGameSceneUI()
     {
         _gameCanvas.SetActive(false);
-    }
-
-    private void OnDestroy() 
-    {
-        _smScene.SSM_State_HomeScene.OnEnter -= SetTimeScale;
-        _smScene.SSM_State_GameScene.OnEnter -= SetTimeScale;
     }
 }

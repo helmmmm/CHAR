@@ -133,7 +133,13 @@ using UnityEngine;
         return;
 
       if (_spawnedCursorObject == null)
+      {
         _spawnedCursorObject = Instantiate(CursorObject, Vector2.one, Quaternion.identity);
+        if (SM_Game.Instance != null)
+        {
+          SM_Game.Instance.TryChangeState(SM_Game.Instance.GSM_State_PlaneTracked);
+        }
+      }
 
       // Set the cursor object to the hit test result's position
       _spawnedCursorObject.transform.position = hitTestResults[0].WorldTransform.ToPosition();
