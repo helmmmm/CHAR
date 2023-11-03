@@ -22,12 +22,6 @@ public class GameManager : MonoBehaviour
     {
         _smGame.Initialize();
         Instance = this;
-                
-        _smGame.GSM_State_LevelGenerated.OnEnter += EnableStartLevelButton;
-        _smGame.GSM_State_Firefighting.OnEnter += () => _isFireFighting = true;
-        _smGame.GSM_State_Firefighting.OnExit += () => _isFireFighting = false;
-        _smGame.GSM_State_Paused.OnEnter += Pause;
-        _smGame.GSM_State_Paused.OnExit += Resume;
     }
 
     private void OnEnable() 

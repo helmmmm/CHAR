@@ -388,7 +388,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76be180c79f0242e895145263b21a7d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _levelTypeDB: {fileID: 11400000, guid: dcc2fb03450fd4862a399cf0d318df9d, type: 2}
+  _difficultyDB: {fileID: 11400000, guid: acde2ed674f814d289dbcb7d3e079a55, type: 2}
+  _levelSizeDB: {fileID: 11400000, guid: 4daeafabf6d404f91b9f5f7fbc44dd0c, type: 2}
   _startButton: {fileID: 5429267793346219266}
+  _levelTypeLeftButton: {fileID: 5429267791937007785}
+  _levelTypeRightButton: {fileID: 5429267792363129971}
+  _difficultyLeftButton: {fileID: 5429267793624194603}
+  _difficultyRightButton: {fileID: 5429267792798718980}
+  _levelSizeLeftButton: {fileID: 5429267792144544861}
+  _levelSizeRightButton: {fileID: 5429267792702354758}
+  _levelTypeText: {fileID: 5429267791658536626}
+  _difficultyText: {fileID: 5429267791930198439}
+  _levelSizeText: {fileID: 5429267793328705303}
 --- !u!1 &5429267791883911447
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,7 +707,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 21}
-  m_SizeDelta: {x: 640, y: 68}
+  m_SizeDelta: {x: 960, y: 68}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5429267791930198424
 CanvasRenderer:
@@ -915,7 +927,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5429267791937007789}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5429267791861407981}
+        m_TargetAssemblyTypeName: HomeSceneUIManager, Assembly-CSharp
+        m_MethodName: OnLevelTypeLeftClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &5429267791937007787
 Animator:
   serializedVersion: 4
@@ -1200,7 +1224,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5429267792144544849}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5429267791861407981}
+        m_TargetAssemblyTypeName: HomeSceneUIManager, Assembly-CSharp
+        m_MethodName: OnLevelSizeLeftClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &5429267792144544863
 Animator:
   serializedVersion: 4
@@ -1766,7 +1802,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5429267792363129974}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5429267791861407981}
+        m_TargetAssemblyTypeName: HomeSceneUIManager, Assembly-CSharp
+        m_MethodName: OnLevelTypeRightClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5429267792418280230
 GameObject:
   m_ObjectHideFlags: 0
@@ -2004,7 +2052,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5429267792702354873}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5429267791861407981}
+        m_TargetAssemblyTypeName: HomeSceneUIManager, Assembly-CSharp
+        m_MethodName: OnLevelSizeRightClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5429267792703728645
 GameObject:
   m_ObjectHideFlags: 0
@@ -2320,7 +2380,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5429267792798718983}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5429267791861407981}
+        m_TargetAssemblyTypeName: HomeSceneUIManager, Assembly-CSharp
+        m_MethodName: OnDifficultyRightClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5429267792853228556
 GameObject:
   m_ObjectHideFlags: 0
@@ -4115,7 +4187,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5429267793624194607}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5429267791861407981}
+        m_TargetAssemblyTypeName: HomeSceneUIManager, Assembly-CSharp
+        m_MethodName: OnDifficultyLeftClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &5429267793624194605
 Animator:
   serializedVersion: 4

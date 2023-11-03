@@ -23,7 +23,7 @@ public class Block : MonoBehaviour
     private bool _beenBurnt = false;
 
     private Collider _collider;
-    private List<GameObject> _nearbyBlockList = new List<GameObject>();
+    public List<GameObject> _nearbyBlockList = new List<GameObject>();
 
     private SM_Block _smBlock;
     public event Action<GameObject> OnBlockBurnt; // "event" when called within class holding the event. argument type already defined by Action<>

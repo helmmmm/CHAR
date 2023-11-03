@@ -5,9 +5,10 @@ using UnityEngine;
 public class LevelGenerator : MonoBehaviour
 {
     public static LevelGenerator Instance;
-    public List<GameObject> _burnablePrefabs = new List<GameObject>();
+    private List<GameObject> _burnablePrefabs = new List<GameObject>();
+    public List<GameObject> _initialBurnableBlocks = new List<GameObject>();
     // private List<Vector3> _usedPositions = new List<Vector3>();
-    private int _burnableCount = 10; // Use density?
+    private int _burnableCount; // Use density?
     private SM_Game _smGame => SM_Game.Instance;
     private Renderer _levelBaseRenderer;
     private Vector3 _levelBaseMin;
@@ -15,6 +16,8 @@ public class LevelGenerator : MonoBehaviour
     private bool _generationInProgress = false;
     public List<GameObject> _generatedBurnables = new List<GameObject>();
 
+    // Only ignite visible blocks, at least one open face
+    // If generate count goes over number of burnables, generate within one
 
     private void Awake()
     {
@@ -30,6 +33,13 @@ public class LevelGenerator : MonoBehaviour
 
     void Start()
     {
+        _burnableCount = LevelConfig.Instance._generateCount;
+        foreach (GameObject burnable in LevelConfig.Instance._burnableList)
+        {
+            _burnablePrefabs.Add(burnable);
+        }
+
+
         _levelBaseRenderer = GetComponent<Renderer>();
         _levelBaseMin = _levelBaseRenderer.bounds.min;
         _levelBaseMax = _levelBaseRenderer.bounds.max;
@@ -171,10 +181,11 @@ public class LevelGenerator : MonoBehaviour
     {
         List<GameObject> randomBurnables = new List<GameObject>();
         List<GameObject> temp = new List<GameObject>(_generatedBurnables);
+
         for (int i = 0; i < LevelConfig.Instance._startingFireCount; i++)
         {
             if (temp.Count == 0)
-                break;
+                temp.AddRange(_generatedBurnables);
 
             int randomIndex = Random.Range(0, temp.Count);
             randomBurnables.Add(temp[randomIndex]);
@@ -184,14 +195,17 @@ public class LevelGenerator : MonoBehaviour
         return randomBurnables;
     }
 
-    private List<GameObject> GetRandomBlocksOnBurnable()
+    private List<Block> GetRandomBlocksOnBurnable()
     {
-        List<GameObject> randomBlocks = new List<GameObject>();
+        List<Block> randomBlocks = new List<Block>();
 
         foreach (GameObject burnable in GetRandomBurnablesFromList())
         {
             int randomBlockIndex = Random.Range(0, burnable.transform.childCount);
-            randomBlocks.Add(burnable.transform.GetChild(randomBlockIndex).gameObject);
+            Block blockAtIndex = burnable.transform.GetChild(randomBlockIndex).GetComponent<Block>();
+            // if the block has at least 1 exposed surface
+            if (blockAtIndex._nearbyBlockList.Count < 6)
+                randomBlocks.Add(blockAtIndex);
         }
 
         return randomBlocks;
@@ -199,9 +213,9 @@ public class LevelGenerator : MonoBehaviour
 
     public void IgniteRandoms()
     {
-        foreach (GameObject block in GetRandomBlocksOnBurnable())
+        foreach (Block block in GetRandomBlocksOnBurnable())
         {
-            block.GetComponent<Block>().Ignite();
+            block.Ignite();
         }
     }
 
