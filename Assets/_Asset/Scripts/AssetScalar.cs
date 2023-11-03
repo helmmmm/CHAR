@@ -7,21 +7,17 @@ public class AssetScalar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (gameObject.CompareTag("MainCamera"))
+        Vector3 newScale = transform.localScale;
+        if (gameObject.CompareTag("Level Cursor"))
         {
-            WaterShooter waterShooter = gameObject.GetComponent<WaterShooter>();
-            waterShooter._firePower *= LevelConfig.Instance.levelScale;
+            if (LevelConfig.Instance.levelType != "Building")
+                newScale *= LevelConfig.Instance.levelScale * 5;
+            else
+                newScale *= LevelConfig.Instance.levelScale * 2;
         }
-        else
-        {
-            Vector3 newScale = transform.localScale;
-            newScale *= LevelConfig.Instance.levelScale;
-            transform.localScale = newScale;   
-        }
-
-        // if (gameObject.CompareTag("Water") || gameObject.CompareTag("Water Unit"))
-        // {
-            
-        // }
+        
+        else newScale *= LevelConfig.Instance.levelScale;
+        
+        transform.localScale = newScale;
     }
 }

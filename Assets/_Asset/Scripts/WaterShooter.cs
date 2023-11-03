@@ -27,6 +27,9 @@ public class WaterShooter : MonoBehaviour
         _mainCamera = Camera.main;
         _waterPrefab = Resources.Load<GameObject>("Prefabs/Water Collider");
         _waterVFX = Resources.Load<GameObject>("Prefabs/Water VFX");
+        _waterPrefab.gameObject.transform.localScale *= LevelConfig.Instance.levelScale;
+        _waterVFX.gameObject.transform.localScale *= LevelConfig.Instance.levelScale;
+        _capacity = LevelConfig.Instance._waterCapacity;
         _currentWaterLevel = _capacity;
         _waterGauge = GameSceneUIManager.Instance._waterGauge;
         _waterGauge.GetComponent<Slider>().maxValue = _capacity;
@@ -70,7 +73,7 @@ public class WaterShooter : MonoBehaviour
         {
             if (_currentWaterLevel < _capacity)
             {
-                _currentWaterLevel += 5f * Time.deltaTime;
+                _currentWaterLevel += LevelConfig.Instance._waterReloadRate * Time.deltaTime;
             }
         }
         _waterGauge.GetComponent<Slider>().value = _currentWaterLevel;

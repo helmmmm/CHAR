@@ -16,6 +16,7 @@ TagManager:
   - Water VFX
   - Burning Block
   - Burnt Block
+  - Level Cursor
   layers:
   - Default
   - TransparentFX

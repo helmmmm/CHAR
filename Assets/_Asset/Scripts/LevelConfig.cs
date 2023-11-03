@@ -5,8 +5,14 @@ using UnityEngine;
 public class LevelConfig : MonoBehaviour
 {
     public static LevelConfig Instance;
-    public float levelScale;
-    public float _startingFireCount;
+
+    public int _generateCount = 10;
+    public List<GameObject> _burnableList = new List<GameObject>();
+    public float _startingFireCount = 7;
+    public float _waterCapacity = 80;
+    public float _waterReloadRate = 6f;
+    public float levelScale = 0.2f;
+    public string levelType;
 
     void Awake() 
     {
@@ -21,16 +27,45 @@ public class LevelConfig : MonoBehaviour
         }
     }
 
-    void Start()
+    public void SetLevelType(string levelType)
     {
-        levelScale = 0.2f;
-        _startingFireCount = 5;
-        // levelScale = 1f;
+        switch (levelType)
+        {
+            case "Village":
+                _generateCount = 10;
+                levelType = "Village";
+                break;
+            case "Forest":
+                _generateCount = 12;
+                levelType = "Forest";
+                break;
+            case "Building":
+                _generateCount = 1;
+                levelType = "Building";
+                break;
+            default:
+                break;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetBurnableList(string levelType)
     {
+        _burnableList.Clear();
         
+        switch (levelType)
+        {
+            case "Village":
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/Tree_M"));
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/House_M"));
+                break;
+            case "Forest":
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/Tree_M"));
+                break;
+            case "Building":
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/Building"));
+                break;
+            default:
+                break;
+        }
     }
 }
