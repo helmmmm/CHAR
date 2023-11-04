@@ -21,6 +21,7 @@ public class GameSceneUIManager : MonoBehaviour
     [SerializeField] private GameObject _scanUI;
     [SerializeField] private GameObject _directionsUI;
     [SerializeField] private GameObject _finishScreenUI;
+    [SerializeField] private GameObject _generatingUI;
 
     public GameObject _waterGauge;
     public TMP_Text _gameTimerText;
@@ -75,6 +76,8 @@ public class GameSceneUIManager : MonoBehaviour
         _smGame.GSM_State_PlaneTracked.OnEnter += DisableScanUI;
         _smGame.GSM_State_PlaneTracked.OnEnter += EnableDirectionsUI;
         _smGame.GSM_State_CursorPlaced.OnEnter += DisableDirectionsUI;
+        _smGame.GSM_State_CursorPlaced.OnEnter += EnableGenerationUI;
+        _smGame.GSM_State_LevelGenerated.OnEnter += DisableGenerationUI;
 
         // _smScene.SSM_State_GameScene.OnExit += () => gameObject.SetActive(false);
         _smGame.GSM_State_Firefighting.OnEnter += EnableGamePlayUI;
@@ -87,6 +90,8 @@ public class GameSceneUIManager : MonoBehaviour
         _smGame.GSM_State_PlaneTracked.OnEnter -= DisableScanUI;
         _smGame.GSM_State_PlaneTracked.OnEnter -= EnableDirectionsUI;
         _smGame.GSM_State_CursorPlaced.OnEnter -= DisableDirectionsUI;
+        _smGame.GSM_State_CursorPlaced.OnEnter -= EnableGenerationUI;
+        _smGame.GSM_State_LevelGenerated.OnEnter -= DisableGenerationUI;
 
         // _smScene.SSM_State_GameScene.OnExit += () => gameObject.SetActive(false);
         _smGame.GSM_State_Firefighting.OnEnter -= EnableGamePlayUI;
@@ -111,6 +116,16 @@ public class GameSceneUIManager : MonoBehaviour
     private void DisableDirectionsUI()
     {
         _directionsUI.SetActive(false);
+    }
+
+    private void EnableGenerationUI()
+    {
+        _generatingUI.SetActive(true);
+    }
+
+    private void DisableGenerationUI()
+    {
+        _generatingUI.SetActive(false);
     }
 
     public void OnStartLevelButtonClick()

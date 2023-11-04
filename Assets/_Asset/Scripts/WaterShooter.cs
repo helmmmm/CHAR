@@ -14,7 +14,7 @@ public class WaterShooter : MonoBehaviour
 
     private float _timeSinceLastShotCollider = 0f;
     private float _timeSinceLastShotVFX = 0f;
-    private float _ColliderFireRate = 0.04f;
+    private float _ColliderFireRate = 0.06f;
     private float _waterVFXFireRate = 0.03f;
     public float _firePower = 100f;
 
@@ -27,7 +27,7 @@ public class WaterShooter : MonoBehaviour
         _mainCamera = Camera.main;
         _waterPrefab = Resources.Load<GameObject>("Prefabs/Water Collider");
         _waterVFX = Resources.Load<GameObject>("Prefabs/Water VFX");
-        _waterPrefab.gameObject.transform.localScale *= LevelConfig.Instance.levelScale;
+        // _waterPrefab.gameObject.transform.localScale *= LevelConfig.Instance.levelScale;
         _waterVFX.gameObject.transform.localScale *= LevelConfig.Instance.levelScale;
         _capacity = LevelConfig.Instance._waterCapacity;
         _currentWaterLevel = _capacity;
@@ -82,9 +82,8 @@ public class WaterShooter : MonoBehaviour
 
     private void Shoot(GameObject prefab)
     {
-        GameObject projectile = Instantiate(prefab);
-        projectile.transform.position = _shootingPoint.transform.position;
-        projectile.transform.rotation = _shootingPoint.transform.rotation;
+        GameObject projectile = Instantiate(prefab, _shootingPoint.transform.position, _shootingPoint.transform.rotation);
+        projectile.transform.localScale *= LevelConfig.Instance.levelScale;
 
         Quaternion shootAngleY = Quaternion.AngleAxis(-5, transform.up);
         Quaternion shootAngleX = Quaternion.AngleAxis(-28, transform.right);

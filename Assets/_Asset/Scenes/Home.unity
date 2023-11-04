@@ -198,8 +198,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b779a2d65da9c4362a3d645707f9ac5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelScale: 0.2
+  _generateCount: 10
+  _burnableList: []
   _startingFireCount: 10
+  _waterCapacity: 80
+  _waterReloadRate: 6
+  levelScale: 0.2
+  levelType: 
 --- !u!4 &1115593239
 Transform:
   m_ObjectHideFlags: 0
@@ -254,7 +259,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.688
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2

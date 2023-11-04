@@ -15,6 +15,11 @@ public class AssetScalar : MonoBehaviour
             else
                 newScale *= LevelConfig.Instance.levelScale * 2;
         }
+
+        else if (gameObject.CompareTag("Water") || gameObject.CompareTag("Water Unit"))
+        {
+                newScale *= LevelConfig.Instance.levelScale * 0.9f;
+        }
         
         else newScale *= LevelConfig.Instance.levelScale;
         
