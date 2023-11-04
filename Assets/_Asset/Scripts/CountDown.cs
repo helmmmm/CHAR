@@ -5,7 +5,7 @@ public class CountDown : MonoBehaviour
 {
     [SerializeField] private TMP_Text _gameTimerText;
     
-    private float _timeDuration = 0.4f * 60f;
+    private float _timeDuration = 5f * 60f;
     private float _timer;
     private bool _timerGoing = true;
     // public float _currentTime;

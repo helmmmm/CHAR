@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 835600230133285944}
   - component: {fileID: 6651488436701968427}
   - component: {fileID: 4018597946604391118}
+  - component: {fileID: 6685955241303643559}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -111,7 +112,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9d26341a9a1f42f19d7da7885fa0043, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _burnablePrefabs:
-  - {fileID: 6556100086648864403, guid: d0a05aa53661041998409c0ee0f67107, type: 3}
-  - {fileID: 4195483575267241600, guid: f7b66756da15746d380c505ad0b6d800, type: 3}
+  _initialBurnableBlocks: []
   _generatedBurnables: []
+--- !u!114 &6685955241303643559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5091417008130581753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67f06012f3fc64c33bb6295c523b41c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _directionalLight: {fileID: 0}
+  _arSessionManager: {fileID: 0}

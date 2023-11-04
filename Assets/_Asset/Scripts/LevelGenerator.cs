@@ -39,7 +39,6 @@ public class LevelGenerator : MonoBehaviour
             _burnablePrefabs.Add(burnable);
         }
 
-
         _levelBaseRenderer = GetComponent<Renderer>();
         _levelBaseMin = _levelBaseRenderer.bounds.min;
         _levelBaseMax = _levelBaseRenderer.bounds.max;
@@ -78,17 +77,19 @@ public class LevelGenerator : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         // Generating level UI message
         _generationInProgress = true;
+        // GameSceneUIManager.Instance.EnableGeneratingLevelUI();
         List<Bounds> createdBoundsList = new List<Bounds>();
 
         for (int i = 0; i < _burnableCount; i++)
         {
             int positionSearchCount = 0;
-            int positionSearchMax = 100;
+            int positionSearchMax = 50;
 
             Vector3 randomSpawnPoint = GetRandomSpawnPoint();
             GameObject randomPrefab = GetRandomPrefab();
+            int randomRotationSide = Random.Range(0, 3);
 
-            GameObject spawnedObj = Instantiate(randomPrefab, randomSpawnPoint, Quaternion.identity);
+            GameObject spawnedObj = Instantiate(randomPrefab, randomSpawnPoint, Quaternion.Euler(0, 90 * randomRotationSide, 0));
             ShowMesh(spawnedObj.transform, false);
 
             if (createdBoundsList.Count > 0)
@@ -113,6 +114,10 @@ public class LevelGenerator : MonoBehaviour
                 _generatedBurnables.Add(spawnedObj);
                 spawnedObj.transform.parent = transform;
                 createdBoundsList.Add(spawnedObj.GetComponent<Collider>().bounds);
+            }
+            else
+            {
+                i--;
             }
         }
         

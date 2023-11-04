@@ -32,11 +32,11 @@ public class LevelConfig : MonoBehaviour
         switch (levelType)
         {
             case "Village":
-                _generateCount = 10;
+                _generateCount = 15;
                 levelType = "Village";
                 break;
             case "Forest":
-                _generateCount = 12;
+                _generateCount = 18;
                 levelType = "Forest";
                 break;
             case "Building":
@@ -55,14 +55,23 @@ public class LevelConfig : MonoBehaviour
         switch (levelType)
         {
             case "Village":
-                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/Tree_M"));
-                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/House_M"));
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/WalnutTree_L"));
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/WalnutTree_M"));
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/WalnutTree_S"));
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/PineTree_L"));
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/PineTree_M"));
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/House 1"));
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/House 2"));
                 break;
             case "Forest":
-                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/Tree_M"));
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/WalnutTree_L"));
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/WalnutTree_M"));
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/WalnutTree_S"));
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/PineTree_L"));
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/PineTree_M"));
                 break;
             case "Building":
-                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/Building"));
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/Test/Building"));
                 break;
             default:
                 break;
