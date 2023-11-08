@@ -91,8 +91,5 @@ public class WaterShooter : MonoBehaviour
 
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         rb.AddForce(shootDirection * _firePower);
-
-
-        ScoreManager.Instance._totalWaterCount++;
     }
 }

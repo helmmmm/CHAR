@@ -46,17 +46,11 @@ public class Block : MonoBehaviour
         _smBlock.Initialize();
         // _smBlock.CheckComponent();
 
-        _smBlock.BSM_State_Resting.OnEnter += ToDefaultMaterial;
-        _smBlock.BSM_State_Resting.OnEnter += () => gameObject.tag = "Burnable Block";
+        _smBlock.BSM_State_Resting.OnEnter += OnResting;
 
-        _smBlock.BSM_State_Burning.OnEnter += ToBurningMaterial; // can combine
-        _smBlock.BSM_State_Burning.OnEnter += SpawnFireVFX; // these two
-        // _smBlock.BSM_State_Burning.OnEnter += IncreaseBurningCount;
-        _smBlock.BSM_State_Burning.OnEnter += () => ScoreManager.Instance._ignitedBlockCount++;
-        _smBlock.BSM_State_Burning.OnEnter += () => gameObject.tag = "Burning Block";
+        _smBlock.BSM_State_Burning.OnEnter += OnBurning;
 
         _smBlock.BSM_State_Burning.OnExit += DespawnFireVFX;
-        // _smBlock.BSM_State_Burning.OnEnter += DecreaseBurningCount;
 
         _smBlock.BSM_State_Burnt.OnEnter += Burnt;
 
@@ -100,6 +94,28 @@ public class Block : MonoBehaviour
     {
         _smBlock.TryChangeState(_smBlock.BSM_State_Burning);
         _currentTemperature = _ignitionTemperature;
+    }
+
+    private void OnBurning()
+    {
+        // if (!_beenBurnt)
+        // {
+        //     _beenBurnt = true;
+        //     ScoreManager.Instance._burntBlockCount++;
+        // }
+        ToBurningMaterial();
+        SpawnFireVFX();
+        ScoreManager.Instance._ignitedBlockCount++;
+        gameObject.tag = "Burning Block";
+        GameManager.Instance._currentFireCount++;
+    }
+
+    private void OnResting()
+    {
+        ToDefaultMaterial();
+        DespawnFireVFX();
+        gameObject.tag = "Burnable Block";
+        GameManager.Instance._currentFireCount--;
     }
 
     void OnTriggerEnter(Collider other) 
@@ -241,10 +257,10 @@ public class Block : MonoBehaviour
     void SpawnFireVFX()
     {
         // if (contact list has 6 || has 5 and the bottom is open)
-        if (_nearbyBlockList.Count == 6)
+        if (_nearbyBlockList.Count >= 6)
             return;
         
-        if (_nearbyBlockList.Count == 5)
+        if (_nearbyBlockList.Count < 6)
         {
             bool hasBottom = false;
             foreach(GameObject block in _nearbyBlockList)
@@ -283,13 +299,12 @@ public class Block : MonoBehaviour
     {
         // Debug.Log($"[{gameObject.name}] is Burnt");
         ScoreManager.Instance._burntBlockCount++;
+        GameManager.Instance._currentFireCount--;
         gameObject.tag = "Burnt Block";
         OnBlockBurnt?.Invoke(gameObject); // ? to check if OnBlockBurnt is null
-        _smBlock.BSM_State_Resting.OnEnter -= ToDefaultMaterial;
+        _smBlock.BSM_State_Resting.OnEnter -= OnResting;
 
-        _smBlock.BSM_State_Burning.OnEnter -= ToBurningMaterial;
-        _smBlock.BSM_State_Burning.OnEnter -= SpawnFireVFX;
-        // _smBlock.BSM_State_Burning.OnEnter -= IncreaseBurningCount;
+        _smBlock.BSM_State_Burning.OnEnter -= OnBurning;
 
         _smBlock.BSM_State_Burning.OnExit -= DespawnFireVFX;
         // _smBlock.BSM_State_Burning.OnEnter -= DecreaseBurningCount;

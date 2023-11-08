@@ -34,11 +34,15 @@ public class CountDown : MonoBehaviour
                 _timerGoing = false;
                 SM_Game.Instance.TryChangeState(SM_Game.Instance.GSM_State_GameFinished);
             }
-        }
-        // else
-        // {
 
-        // }
+            Debug.Log(GameManager.Instance._currentFireCount);
+            if (GameManager.Instance.IsFireGone())
+            {
+                _timerGoing = false;
+                ScoreManager.Instance._timeLeft = Mathf.FloorToInt(_timer);
+                SM_Game.Instance.TryChangeState(SM_Game.Instance.GSM_State_GameFinished);
+            }
+        }
     }
 
 

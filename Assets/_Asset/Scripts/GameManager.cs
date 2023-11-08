@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private float burnTimer = 0;
     private int _startingFireCount = 5;
     private bool _isFireFighting = false;
-    // public int _currentFireCount = 0; // To determine early game end state
+    public int _currentFireCount = 0; // To determine early game end state
     // public int _burntCount = 0;
 
     // UI
@@ -83,10 +83,10 @@ public class GameManager : MonoBehaviour
         SM_Game.Instance.TryChangeState(SM_Game.Instance.GSM_State_Firefighting);
     }
 
-    // public bool IsFireGone()
-    // {
-    //     return _currentFireCount == 0;
-    // }
+    public bool IsFireGone()
+    {
+        return _currentFireCount == 0;
+    }
 
     public bool IsFireFighting()
     {

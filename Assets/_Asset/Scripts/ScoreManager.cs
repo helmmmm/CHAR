@@ -13,11 +13,12 @@ public class ScoreManager : MonoBehaviour
     public int _extinguishedBlockCount; // From Block Class [v]
     public int _totalWaterCount;// From WaterShooter [v]
     public int _hitWaterCount; // From Block Class [v]
-    // public int _timeLeft; // From CountDown []
+    public int _timeLeft; // From CountDown []
 
     private int _burntPenaltyScore;
     private int _extinguishedBonusScore;
     private int _waterAccuracyBonusScore;
+    private int _timeLeftBonusScore;
     private int _overallScore;
     
     private void Awake() 
@@ -62,7 +63,6 @@ public class ScoreManager : MonoBehaviour
 
     IEnumerator ScoreRoutine()
     {
-        PauseTimer();
         CalculateScore();
         SaveScore();
         UpdateScoreText();
@@ -71,16 +71,12 @@ public class ScoreManager : MonoBehaviour
         yield return null;
     }
 
-    private void PauseTimer()
-    {
-
-    }
-
     private void CalculateScore()
     {
-        _burntPenaltyScore = Mathf.RoundToInt(BurntBlockPercentage() * 200);
+        _burntPenaltyScore = Mathf.FloorToInt(BurntBlockPercentage() * 200);
         _extinguishedBonusScore = Mathf.RoundToInt(ExtinguishedBlockPercentage() * 200);
-        _waterAccuracyBonusScore = Mathf.RoundToInt(WaterAccuracy() * 400);
+        _waterAccuracyBonusScore = Mathf.FloorToInt(WaterAccuracy() * 400);
+        _timeLeftBonusScore = _timeLeft * 10;
 
         _overallScore = _extinguishedBonusScore + _waterAccuracyBonusScore - _burntPenaltyScore;
     }
@@ -95,10 +91,17 @@ public class ScoreManager : MonoBehaviour
         _gsum.ChangeText(_gsum._burntRaw, FormatPercentage(BurntBlockPercentage()));
         _gsum.ChangeText(_gsum._extinguishedRaw, FormatPercentage(ExtinguishedBlockPercentage()));
         _gsum.ChangeText(_gsum._waterAccuracyRaw, FormatPercentage(WaterAccuracy()));
+        _gsum.ChangeText(_gsum._timeBonusRaw, (_timeLeft.ToString() + " s"));
 
         _gsum.ChangeText(_gsum._burntPenalty, ("-" + _burntPenaltyScore.ToString()));
         _gsum.ChangeText(_gsum._extinguishedBonus, (_extinguishedBonusScore.ToString()));
         _gsum.ChangeText(_gsum._waterAccuracyBonus, (_waterAccuracyBonusScore.ToString()));
+        _gsum.ChangeText(_gsum._timeBonusFinal, (_timeLeftBonusScore.ToString()));
+
+        if (_timeLeft <= 0)
+            _gsum.ChangeText(_gsum._gameFinishedText, "Time's up!");
+        else
+            _gsum.ChangeText(_gsum._gameFinishedText, "Extinguished!");    
 
         _gsum.ChangeText(_gsum._overallScore, _overallScore.ToString());
     }
@@ -110,7 +113,7 @@ public class ScoreManager : MonoBehaviour
 
     private string FormatPercentage(float decimalValue)
     {
-        string percentage = decimalValue.ToString("P0");
+        string percentage = decimalValue.ToString("#0.##%");
         return percentage;
     }
 
