@@ -120,10 +120,10 @@ public class LightEstimation : MonoBehaviour
             _directionalLight.color = CorrelatedColorTemperatureToRGB(_currentLightEstimate.AmbientColorTemperature);
 
             // Update text values to display
-            _ambientIntensityText = $"Ambient Light Intensity: {frame.LightEstimate.AmbientIntensity}";
-            _ambientColorTemperatureText = $"Ambient Light Color: {frame.LightEstimate.AmbientColorTemperature}";
-            _directionalIntensityText = $"Directional Light Intensity: {_currentLightEstimate.AmbientIntensity}";
-            _directionalColorTemperatureText = $"Directional Light Color: {_currentLightEstimate.AmbientColorTemperature}";
+            // _ambientIntensityText = $"Ambient Light Intensity: {frame.LightEstimate.AmbientIntensity}";
+            // _ambientColorTemperatureText = $"Ambient Light Color: {frame.LightEstimate.AmbientColorTemperature}";
+            // _directionalIntensityText = $"Directional Light Intensity: {_currentLightEstimate.AmbientIntensity}";
+            // _directionalColorTemperatureText = $"Directional Light Color: {_currentLightEstimate.AmbientColorTemperature}";
         }
         else
         {
@@ -132,23 +132,23 @@ public class LightEstimation : MonoBehaviour
             _directionalLight.color = Color.white;
 
             // Update text values to display
-            _ambientIntensityText = "Ambient Light Intensity: N/A";
-            _ambientColorTemperatureText = "Ambient Light Color: N/A";
-            _directionalIntensityText = "Directional Light Intensity: N/A";
-            _directionalColorTemperatureText = "Directional Light Color: N/A";
+            // _ambientIntensityText = "Ambient Light Intensity: N/A";
+            // _ambientColorTemperatureText = "Ambient Light Color: N/A";
+            // _directionalIntensityText = "Directional Light Intensity: N/A";
+            // _directionalColorTemperatureText = "Directional Light Color: N/A";
         }
     }
 
-    void OnGUI()
-    {
-        // Ensure that the strings are initialized before attempting to display them
-        if (_ambientIntensityText != null)
-        {
-            // Define the position and size of the GUI labels
-            GUI.Label(new Rect(10, 10, 500, 20), _ambientIntensityText, labelStyle);
-            GUI.Label(new Rect(10, 70, 500, 20), _ambientColorTemperatureText, labelStyle);
-            GUI.Label(new Rect(10, 130, 500, 20), _directionalIntensityText, labelStyle);
-            GUI.Label(new Rect(10, 190, 500, 20), _directionalColorTemperatureText, labelStyle);
-        }
-    }
+    // void OnGUI()
+    // {
+    //     // Ensure that the strings are initialized before attempting to display them
+    //     if (_ambientIntensityText != null)
+    //     {
+    //         // Define the position and size of the GUI labels
+    //         GUI.Label(new Rect(10, 10, 500, 20), _ambientIntensityText, labelStyle);
+    //         GUI.Label(new Rect(10, 70, 500, 20), _ambientColorTemperatureText, labelStyle);
+    //         GUI.Label(new Rect(10, 130, 500, 20), _directionalIntensityText, labelStyle);
+    //         GUI.Label(new Rect(10, 190, 500, 20), _directionalColorTemperatureText, labelStyle);
+    //     }
+    // }
 }

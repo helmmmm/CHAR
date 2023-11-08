@@ -8,9 +8,9 @@ public class Brick : Block
     {
         base.Start();
         _currentTemperature = 20f;
-        _ignitionTemperature = 200f;
+        _ignitionTemperature = Random.Range(480f, 600f);
         _heatTransferRate = 20f;
-        _burnHP = 30000f;
+        _burnHP = Random.Range(540f, 680f);
         _burnDMG = 20f;
     }
 }

@@ -17,7 +17,7 @@ public class Block : MonoBehaviour
     protected float _heatTransferRate = 20f; // How much heat it emits
     protected float _burnHP = 220f; // Block's HP against fire
     protected float _burnDMG = 20f; // Damage per second from fire
-    protected float _coolingRate = 80f; // How much heat it loses per second
+    protected float _coolingRate = 30f; // How much heat it loses per second
 
     public bool manualIgnition = false;
     private bool _beenBurnt = false;
@@ -51,10 +51,12 @@ public class Block : MonoBehaviour
 
         _smBlock.BSM_State_Burning.OnEnter += ToBurningMaterial; // can combine
         _smBlock.BSM_State_Burning.OnEnter += SpawnFireVFX; // these two
+        // _smBlock.BSM_State_Burning.OnEnter += IncreaseBurningCount;
         _smBlock.BSM_State_Burning.OnEnter += () => ScoreManager.Instance._ignitedBlockCount++;
         _smBlock.BSM_State_Burning.OnEnter += () => gameObject.tag = "Burning Block";
 
         _smBlock.BSM_State_Burning.OnExit += DespawnFireVFX;
+        // _smBlock.BSM_State_Burning.OnEnter += DecreaseBurningCount;
 
         _smBlock.BSM_State_Burnt.OnEnter += Burnt;
 
@@ -70,15 +72,29 @@ public class Block : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (manualIgnition)
-        {
-            _smBlock.TryChangeState(_smBlock.BSM_State_Burning);
-            _currentTemperature = _ignitionTemperature;
-            manualIgnition = false;
-        }
-    }
+    // void Update()
+    // {
+    //     if (manualIgnition)
+    //     {
+    //         _smBlock.TryChangeState(_smBlock.BSM_State_Burning);
+    //         _currentTemperature = _ignitionTemperature;
+    //         manualIgnition = false;
+    //     }
+    // }
+
+    // private void IncreaseBurningCount()
+    // {
+    //     GameManager.Instance._currentFireCount++;
+    // }
+
+    // private void DecreaseBurningCount()
+    // {
+    //     GameManager.Instance._currentFireCount--;
+    //     if (GameManager.Instance.IsFireGone())
+    //     {
+    //         SM_Game.Instance.TryChangeState(SM_Game.Instance.GSM_State_GameFinished);
+    //     }
+    // }
 
     public void Ignite()
     {
@@ -147,7 +163,7 @@ public class Block : MonoBehaviour
             return;
         }
 
-        if (UnityEngine.Random.Range(0, 100) > 40)
+        if (UnityEngine.Random.Range(0, 100) > 65) // 35% chance to not gain heat
         {
             return;
         }
@@ -158,11 +174,11 @@ public class Block : MonoBehaviour
         }
         else if (heatSourcePosY > transform.position.y)
         {
-            heatFactor = 0.5f;
+            heatFactor = 0.7f;
         }
         else if (heatSourcePosY < transform.position.y)
         {
-            heatFactor = 1.5f;
+            heatFactor = 1.6f;
         }
 
         _currentTemperature += _heatTransferRate * heatFactor;
@@ -273,8 +289,10 @@ public class Block : MonoBehaviour
 
         _smBlock.BSM_State_Burning.OnEnter -= ToBurningMaterial;
         _smBlock.BSM_State_Burning.OnEnter -= SpawnFireVFX;
+        // _smBlock.BSM_State_Burning.OnEnter -= IncreaseBurningCount;
 
         _smBlock.BSM_State_Burning.OnExit -= DespawnFireVFX;
+        // _smBlock.BSM_State_Burning.OnEnter -= DecreaseBurningCount;
 
         _smBlock.BSM_State_Burnt.OnEnter -= Burnt;   
         Destroy(gameObject);

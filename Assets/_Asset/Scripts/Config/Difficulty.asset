@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   difficultyTypes:
   - _difficulty: Ember (Playground)
-    _startingFireCount: 5
-    _waterCapacity: 400
-    _waterReloadRate: 10
+    _startingFireCount: 8
+    _waterCapacity: 150
+    _waterReloadRate: 20
   - _difficulty: Campfire (Easy)
-    _startingFireCount: 7
-    _waterCapacity: 80
-    _waterReloadRate: 6
+    _startingFireCount: 11
+    _waterCapacity: 100
+    _waterReloadRate: 12
   - _difficulty: Flame (Medium)
-    _startingFireCount: 10
-    _waterCapacity: 40
-    _waterReloadRate: 5
-  - _difficulty: Magma (Hellish)
     _startingFireCount: 14
-    _waterCapacity: 25
-    _waterReloadRate: 3
+    _waterCapacity: 70
+    _waterReloadRate: 8
+  - _difficulty: Magma (Hellish)
+    _startingFireCount: 16
+    _waterCapacity: 50
+    _waterReloadRate: 5

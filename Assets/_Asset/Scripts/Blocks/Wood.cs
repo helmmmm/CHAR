@@ -8,9 +8,9 @@ public class Wood : Block
     {
         base.Start();
         _currentTemperature = 20f;
-        _ignitionTemperature = 120f;
+        _ignitionTemperature = Random.Range(180f, 240f);
         _heatTransferRate = 20f;
-        _burnHP = 240f;
+        _burnHP = Random.Range(260f, 300f);
         _burnDMG = 20f;
     }
 }

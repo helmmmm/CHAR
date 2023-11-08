@@ -8,9 +8,9 @@ public class DryWood : Block
     {
         base.Start();
         _currentTemperature = 20f;
-        _ignitionTemperature = Random.Range(160f, 400f);
-        _heatTransferRate = 40f;
-        _burnHP = Random.Range(480f, 840f);
-        _burnDMG = 0f;
+        _ignitionTemperature = Random.Range(160f, 220f);
+        _heatTransferRate = 20f;
+        _burnHP = Random.Range(240f, 280f);
+        _burnDMG = 20f;
     }
 }

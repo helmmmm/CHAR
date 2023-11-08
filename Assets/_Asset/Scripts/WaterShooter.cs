@@ -14,7 +14,7 @@ public class WaterShooter : MonoBehaviour
 
     private float _timeSinceLastShotCollider = 0f;
     private float _timeSinceLastShotVFX = 0f;
-    private float _ColliderFireRate = 0.06f;
+    private float _ColliderFireRate = 0.1f;
     private float _waterVFXFireRate = 0.03f;
     public float _firePower = 100f;
 

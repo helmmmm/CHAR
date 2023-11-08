@@ -8,9 +8,9 @@ public class Concrete : Block
     {
         base.Start();
         _currentTemperature = 20f;
-        _ignitionTemperature = 100f;
+        _ignitionTemperature = Random.Range(540f, 720f);
         _heatTransferRate = 20f;
-        _burnHP = 240f;
+        _burnHP = Random.Range(640f, 800f);
         _burnDMG = 20f;
     }
 }
