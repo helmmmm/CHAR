@@ -26,12 +26,14 @@ public class GameSceneUIManager : MonoBehaviour
     public GameObject _waterGauge;
     public TMP_Text _gameTimerText;
     public TMP_Text _countDownText;
+    public TMP_Text _gameFinishedText;
     public TMP_Text _burntRaw;
     public TMP_Text _burntPenalty;
     public TMP_Text _extinguishedRaw;
     public TMP_Text _extinguishedBonus;
     public TMP_Text _waterAccuracyRaw;
     public TMP_Text _waterAccuracyBonus;
+    public TMP_Text _timeBonusRaw;
     public TMP_Text _timeBonusFinal;
     public TMP_Text _overallScore;
 

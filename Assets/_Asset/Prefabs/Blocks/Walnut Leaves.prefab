@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5920154498311567411}
   - component: {fileID: 3834779382859415984}
   - component: {fileID: 5196617232714072024}
+  - component: {fileID: -8417279187403491367}
   m_Layer: 0
   m_Name: Walnut Leaves
   m_TagString: Burnable Block
@@ -94,7 +95,7 @@ SphereCollider:
   m_GameObject: {fileID: 5920154498311567421}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.7
   m_Center: {x: 0, y: 0, z: 0}
@@ -112,3 +113,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manualIgnition: 0
   _nearbyBlockList: []
+--- !u!65 &-8417279187403491367
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5920154498311567421}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.1, y: 1.1, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}

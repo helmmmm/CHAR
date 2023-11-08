@@ -19,6 +19,7 @@ public class Water : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) 
     {
+        ScoreManager.Instance._totalWaterCount++;
         if (other.gameObject.CompareTag("Burning Block"))
         {
             ScoreManager.Instance._hitWaterCount++;
