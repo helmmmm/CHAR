@@ -79,52 +79,66 @@ public class LevelGenerator : MonoBehaviour
         _generationInProgress = true;
         // GameSceneUIManager.Instance.EnableGeneratingLevelUI();
         List<Bounds> createdBoundsList = new List<Bounds>();
-
-        for (int i = 0; i < _burnableCount; i++)
+        
+        if (LevelConfig.Instance.levelType == "Building")
         {
-            int positionSearchCount = 0;
-            int positionSearchMax = 50;
-
-            Vector3 randomSpawnPoint = GetRandomSpawnPoint();
             GameObject randomPrefab = GetRandomPrefab();
-            int randomRotationSide = Random.Range(0, 3);
-
-            GameObject spawnedObj = Instantiate(randomPrefab, randomSpawnPoint, Quaternion.Euler(0, 90 * randomRotationSide, 0));
+            GameObject spawnedObj = Instantiate(randomPrefab, transform.position, Quaternion.identity);
             ShowMesh(spawnedObj.transform, false);
-
-            if (createdBoundsList.Count > 0)
+            _generatedBurnables.Add(spawnedObj);
+            spawnedObj.transform.parent = transform;
+            createdBoundsList.Add(spawnedObj.GetComponent<Collider>().bounds);
+            transform.localScale *= LevelConfig.Instance.levelScale;
+            ShowMesh(spawnedObj.transform, true);
+        }
+        else
+        {
+            for (int i = 0; i < _burnableCount; i++)
             {
-                while (!IsPositionAvailable(createdBoundsList, spawnedObj.GetComponent<Collider>().bounds))
+                int positionSearchCount = 0;
+                int positionSearchMax = 100;
+
+                Vector3 randomSpawnPoint = GetRandomSpawnPoint();
+                GameObject randomPrefab = GetRandomPrefab();
+                int randomRotationSide = Random.Range(0, 3);
+
+                GameObject spawnedObj = Instantiate(randomPrefab, randomSpawnPoint, Quaternion.Euler(0, 90 * randomRotationSide, 0));
+                ShowMesh(spawnedObj.transform, false);
+
+                if (createdBoundsList.Count > 0)
                 {
-                    randomSpawnPoint = GetRandomSpawnPoint();
-                    spawnedObj.transform.position = randomSpawnPoint;
-                    var temp = spawnedObj.GetComponentsInChildren<Renderer>();
-
-                    if (positionSearchCount++ >= positionSearchMax)
+                    while (!IsPositionAvailable(createdBoundsList, spawnedObj.GetComponent<Collider>().bounds))
                     {
-                        Destroy(spawnedObj);
-                        break;
-                    }
+                        randomSpawnPoint = GetRandomSpawnPoint();
+                        spawnedObj.transform.position = randomSpawnPoint;
+                        var temp = spawnedObj.GetComponentsInChildren<Renderer>();
 
-                    yield return null;
+                        if (positionSearchCount++ >= positionSearchMax)
+                        {
+                            Destroy(spawnedObj);
+                            break;
+                        }
+
+                        yield return null;
+                    }
+                }
+                if (spawnedObj != null)
+                {
+                    _generatedBurnables.Add(spawnedObj);
+                    spawnedObj.transform.parent = transform;
+                    createdBoundsList.Add(spawnedObj.GetComponent<Collider>().bounds);
+                }
+                else
+                {
+                    i--;
                 }
             }
-            if (spawnedObj != null)
+            
+            transform.localScale *= LevelConfig.Instance.levelScale;
+            foreach (GameObject burnable in _generatedBurnables)
             {
-                _generatedBurnables.Add(spawnedObj);
-                spawnedObj.transform.parent = transform;
-                createdBoundsList.Add(spawnedObj.GetComponent<Collider>().bounds);
+                ShowMesh(burnable.transform, true);
             }
-            else
-            {
-                i--;
-            }
-        }
-        
-        transform.localScale *= LevelConfig.Instance.levelScale;
-        foreach (GameObject burnable in _generatedBurnables)
-        {
-            ShowMesh(burnable.transform, true);
         }
 
         _generationInProgress = false;

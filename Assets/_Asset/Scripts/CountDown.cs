@@ -4,10 +4,10 @@ using TMPro;
 public class CountDown : MonoBehaviour
 {
     [SerializeField] private TMP_Text _gameTimerText;
-    
-    private float _timeDuration = 5f * 60f;
+    public static CountDown Instance;
+    private float _timeDuration = 60f;
     private float _timer;
-    private bool _timerGoing = true;
+    public bool _timerGoing = true;
     // public float _currentTime;
     // private float _minLeft;
     // private float _secLeft;
@@ -20,18 +20,25 @@ public class CountDown : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_timer > 0)
+        if (_timerGoing)
         {
-            _timer -= Time.deltaTime;
-            UpdateTimerDisplay(_timer);
+            if (_timer > 0)
+            {
+                _timer -= Time.deltaTime;
+                UpdateTimerDisplay(_timer);
+            }
+            
+            if (_timer <= 0 && _timerGoing)
+            {
+                UpdateTimerDisplay(_timer);
+                _timerGoing = false;
+                SM_Game.Instance.TryChangeState(SM_Game.Instance.GSM_State_GameFinished);
+            }
         }
-        
-        if (_timer <= 0 && _timerGoing)
-        {
-            UpdateTimerDisplay(_timer);
-            _timerGoing = false;
-            SM_Game.Instance.TryChangeState(SM_Game.Instance.GSM_State_GameFinished);
-        }
+        // else
+        // {
+
+        // }
     }
 
 
@@ -44,8 +51,10 @@ public class CountDown : MonoBehaviour
         _gameTimerText.text = currentTime;  
     }
 
-    // Upload time left to score manager when game ends
+    // Stop timer
 
+
+    // Upload time left to score manager when game ends
     private void ResetTimer()
     {
         _timer = _timeDuration;

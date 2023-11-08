@@ -86,7 +86,7 @@ public class HomeSceneUIManager : MonoBehaviour
     public void OnLevelTypeLeftClick()
     {
         _levelTypeOption--;
-        if (_levelTypeOption < _levelTypeDB.levelTypeCount)
+        if (_levelTypeOption < 0)
         {
             _levelTypeOption = _levelTypeDB.levelTypeCount - 1;
         }
@@ -115,7 +115,7 @@ public class HomeSceneUIManager : MonoBehaviour
     public void OnDifficultyLeftClick()
     {
         _difficultyOption--;
-        if (_difficultyOption < _difficultyDB.difficultyTypesCount)
+        if (_difficultyOption < 0)
         {
             _difficultyOption = _difficultyDB.difficultyTypesCount - 1;
         }
@@ -144,7 +144,7 @@ public class HomeSceneUIManager : MonoBehaviour
     public void OnLevelSizeLeftClick()
     {
         _levelSizeOption--;
-        if (_levelSizeOption < _levelSizeDB.levelSizesCount)
+        if (_levelSizeOption < 0)
         {
             _levelSizeOption = _levelSizeDB.levelSizesCount - 1;
         }

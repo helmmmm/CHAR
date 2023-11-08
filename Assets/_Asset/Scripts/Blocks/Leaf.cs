@@ -8,9 +8,9 @@ public class Leaf : Block
     {
         base.Start();
         _currentTemperature = 20f;
-        _ignitionTemperature = 80f;
+        _ignitionTemperature = Random.Range(120f, 180f);
         _heatTransferRate = 20f;
-        _burnHP = 100f;
+        _burnHP = Random.Range(160f, 200f);
         _burnDMG = 20f;
     }
 }

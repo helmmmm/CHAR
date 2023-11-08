@@ -17,6 +17,7 @@ TagManager:
   - Burning Block
   - Burnt Block
   - Level Cursor
+  - Level
   layers:
   - Default
   - TransparentFX

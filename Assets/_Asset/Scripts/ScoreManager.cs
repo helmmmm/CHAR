@@ -55,16 +55,6 @@ public class ScoreManager : MonoBehaviour
         
     }
 
-    // private void DisplayScore()
-    // {
-
-    // }
-
-    // private void SaveScore()
-    // {
-
-    // }
-
     private void RunScoreRoutine()
     {
         StartCoroutine(ScoreRoutine());
@@ -72,12 +62,18 @@ public class ScoreManager : MonoBehaviour
 
     IEnumerator ScoreRoutine()
     {
+        PauseTimer();
         CalculateScore();
         SaveScore();
         UpdateScoreText();
         DisplayScore();
 
         yield return null;
+    }
+
+    private void PauseTimer()
+    {
+
     }
 
     private void CalculateScore()

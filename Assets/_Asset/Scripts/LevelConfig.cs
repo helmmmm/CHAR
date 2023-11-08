@@ -71,7 +71,7 @@ public class LevelConfig : MonoBehaviour
                 _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/PineTree_M"));
                 break;
             case "Building":
-                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/Test/Building"));
+                _burnableList.Add(Resources.Load<GameObject>("Prefabs/Burnables/Building1"));
                 break;
             default:
                 break;
